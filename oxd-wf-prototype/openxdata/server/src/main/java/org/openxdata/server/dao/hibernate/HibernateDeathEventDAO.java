@@ -6,7 +6,7 @@ package org.openxdata.server.dao.hibernate;
 
 import java.util.List;
 import org.openxdata.server.admin.model.DeathReport;
-import org.openxdata.server.dao.DeathEventDAO;
+import org.openxdata.modules.moveit.server.dao.DeathEventDAO;
 import org.springframework.stereotype.Repository;
 
 /**

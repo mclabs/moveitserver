@@ -6,7 +6,7 @@ package org.openxdata.server.dao.hibernate;
 
 import java.util.List;
 import org.openxdata.server.admin.model.BirthReport;
-import org.openxdata.server.dao.BirthEventDAO;
+import org.openxdata.modules.moveit.server.dao.BirthEventDAO;
 import org.springframework.stereotype.Repository;
 
 /**
