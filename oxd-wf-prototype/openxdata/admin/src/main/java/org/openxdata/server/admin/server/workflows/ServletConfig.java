@@ -5,9 +5,9 @@ import com.google.inject.Injector;
 import com.google.inject.Scopes;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
-import org.openxdata.modules.workflows.server.servlet.BirthReportServlet;
-import org.openxdata.modules.workflows.server.servlet.DeathReportServlet;
-import org.openxdata.modules.workflows.server.servlet.EventStatusQueryServlet;
+import org.openxdata.modules.moveit.server.servlet.BirthReportServlet;
+import org.openxdata.modules.moveit.server.servlet.DeathReportServlet;
+import org.openxdata.modules.moveit.server.servlet.EventStatusQueryServlet;
 import org.openxdata.modules.workflows.server.servlet.WorkItemsServlet;
 import org.yawlfoundation.yawl.engine.interfce.interfaceB.InterfaceB_EnvironmentBasedServer;
 
