@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-gwt run</actionName>
+            <displayName>gwt run</displayName>
+            <goals>
+                <goal>gwt:run</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-gwt:debug</actionName>
+            <displayName>gwt:debug</displayName>
+            <goals>
+                <goal>gwt:debug</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-gwt:run module</actionName>
+            <displayName>gwt:run module</displayName>
+            <goals>
+                <goal>gwt:run</goal>
+            </goals>
+            <properties>
+                <gwt.module>org.openxdata.modules.workflows.client.ui</gwt.module>
+            </properties>
+        </action>
+    </actions>

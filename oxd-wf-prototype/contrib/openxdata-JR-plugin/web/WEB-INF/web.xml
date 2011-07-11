@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+    <display-name>OpenXData JR</display-name>
+	
+	<servlet>
+		<servlet-name>multimedia</servlet-name>
+		<servlet-class>org.openxdata.server.servlet.MultimediaServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>multimedia</servlet-name>
+		<url-pattern>/multimedia</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>studymanager</servlet-name>
+		<servlet-class>org.openxdata.server.admin.server.StudyManagerServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>studymanager</servlet-name>
+		<url-pattern>/studymanager</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>formdownloadservlet</servlet-name>
+		<servlet-class>org.openxdata.server.servlet.FormDownloadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>formdownloadservlet</servlet-name>
+		<url-pattern>/formdownloadservlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>formsaveservlet</servlet-name>
+		<servlet-class>org.openxdata.server.servlet.FormSaveServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>formsaveservlet</servlet-name>
+		<url-pattern>/formsave</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>formopenservlet</servlet-name>
+		<servlet-class>org.openxdata.server.servlet.FormOpenServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>formopenservlet</servlet-name>
+		<url-pattern>/formopen</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>epihandymobile</servlet-name>
+		<servlet-class>org.openxdata.server.servlet.OTAServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>epihandymobile</servlet-name>
+		<url-pattern>/epihandymobile/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>javarosaformdownload</servlet-name>
+		<servlet-class>org.openxdata.server.servlet.JRFormDownloadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>javarosaformdownload</servlet-name>
+		<url-pattern>/javarosaformdownload/*</url-pattern>
+	</servlet-mapping>
+	
+	<listener>
+		<listener-class>org.openxdata.server.Listener</listener-class>
+		<!--  extends ContextLoaderListener -->
+	</listener>
+	
+	<welcome-file-list>
+		<welcome-file>OpenXDataServerAdmin.html</welcome-file>   
+	</welcome-file-list>
+</web-app>

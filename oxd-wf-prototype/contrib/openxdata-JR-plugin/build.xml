@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!-- ********************************************************* -->
+<!-- ** OpenXData-JR-Plugin                                 ** -->
+<!-- **	                                                    ** -->
+<!-- ** @author Mark Gerard                                 ** -->
+<!-- ** @version 1.0                                        ** -->
+<!-- ********************************************************* -->
+<project name="openxdata-JR-Plugin" default="package-jar">
+		
+	<!-- Base definitions (cannot be overwritten by user property file) -->
+	<property file="build.properties" />
+	
+	<!-- *********************************************************** -->
+	<!-- **                     TARGETS                           ** -->
+	<!-- *********************************************************** -->
+	<target name="init" depends="" description="initialization">
+		<path id="classpath">
+			<fileset dir="lib">
+				<include name="**/*.jar"/>
+			</fileset>
+		</path>
+	</target>
+
+	<target name="clean" description="Delete build and dist directories">
+		<delete dir="dist" />
+		<delete dir="build" />
+	</target>
+
+	<target name="compile" depends="init,clean" description="Compiles the code">
+		<mkdir dir="build" />
+		
+		<javac destdir="build" classpathref="classpath" debug="true" debuglevel="lines,source">
+				<src path="src/" />
+				<include name="**/*.java" />
+		</javac>
+	</target>
+	
+	<target name="package-init" depends="compile" description="Packages into jar file">
+		<mkdir dir="dist" />
+		
+		<!-- Copy lib folder -->
+		<!--
+		<copy todir="build/lib" failonerror="false">
+			<fileset dir="lib" includes="**/*" />
+		</copy>
+		-->
+	</target>
+	
+	<target name="package-jar" depends="package-init" description="Packages class files into jar file to be included in other projects">
+		<!-- Create distributable jar file -->
+		<jar destfile="dist/${appname}-${version}.jar">
+			<fileset dir="build" >
+				<exclude name="src/**/*" />
+				<exclude name="test/**/*" />
+			</fileset>
+		</jar>
+	</target>
+			
+	<target name="package-web" depends="package-init,compile" description="create webapp war file">			
+		<war destfile="${dist.dir}/${appname}.war" basedir="web" excludes="**/web.xml" webxml="web/WEB-INF/web.xml" duplicate="add">
+			<classes dir="${build.dir}">
+				<include name="**/*.class" />
+				<include name="log4j.xml" />
+			</classes>
+			<lib dir="lib" />
+		</war>
+	</target>
+			
+	<target name="deploy" depends="package-web" description="Deploys the web application.">
+		<property environment="env"/>
+		<copy tofile="${env.CATALINA_HOME}/webapps/${appname}.war" file="dist/${appname}.war"/>
+		<copy tofile="F:/OpenXDataServerAdmin/tomcat/webapps/ROOT/WEB-INF/lib/${appname}.war" file="dist/${appname}.war"/>
+	</target>
+
+</project>
+
