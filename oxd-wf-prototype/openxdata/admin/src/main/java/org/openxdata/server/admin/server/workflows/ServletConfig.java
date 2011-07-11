@@ -5,6 +5,9 @@ import com.google.inject.Injector;
 import com.google.inject.Scopes;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
+import org.openxdata.modules.workflows.server.servlet.BirthReportServlet;
+import org.openxdata.modules.workflows.server.servlet.DeathReportServlet;
+import org.openxdata.modules.workflows.server.servlet.EventStatusQueryServlet;
 import org.openxdata.modules.workflows.server.servlet.WorkItemsServlet;
 import org.yawlfoundation.yawl.engine.interfce.interfaceB.InterfaceB_EnvironmentBasedServer;
 
@@ -27,6 +30,9 @@ public class ServletConfig extends GuiceServletContextListener
             serve("/OpenXDataServerAdmin/WorkItemsService").with(WorkItemsServiceImpl.class);
             serve("/OpenXDataServerAdmin/SpecStudyMapService").with(SpecStudyMapServiceImpl.class);
             serve("/wirdownload").with(WorkItemsServlet.class);
+            serve("/deathreport").with(DeathReportServlet.class);
+            serve("/birthreport").with(BirthReportServlet.class);
+            serve("/statuscheck").with(EventStatusQueryServlet.class);
         }
     }
 }
