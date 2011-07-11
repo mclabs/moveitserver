@@ -35,9 +35,18 @@ public class DeathReport extends AbstractEditable  {
     
     /** this represents identification of the person concerned with the event */
     private String eventName;
-    
-    
-    
+
+    /** represents phone of contact person for the event. e.g family member**/
+    private String contactPhone;
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
     public void setDeathReportId(int deathReportId) {
         this.deathReportId = deathReportId;
     }

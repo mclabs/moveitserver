@@ -38,6 +38,9 @@ public class BirthReport extends AbstractEditable implements Serializable
     /** this represents identification of the person concerned with the event */
     private String eventName;
 
+    /** represents phone of contact person for the event. e.g family member**/
+    private String contactPhone;
+
     
     
     public void setBirthReportId(int birthReportId) {
@@ -113,6 +116,16 @@ public class BirthReport extends AbstractEditable implements Serializable
     public int getId() {
         return birthReportId;
     }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    
 
     
     
