@@ -5,8 +5,10 @@
 package org.openxdata.modules.moveit.server.service.impl;
 
 import java.util.List;
+import org.openxdata.modules.moveit.server.dao.BirthEventDAO;
+import org.openxdata.modules.moveit.server.model.BirthReport;
 import org.openxdata.modules.moveit.server.service.BirthEventService;
-import org.openxdata.server.admin.model.BirthReport;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,35 +19,59 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service("birthEventService")
-public class BirthEventServiceImpl implements BirthEventService
+public class BirthEventServiceImpl extends EventService implements BirthEventService
 {
-
-    public BirthReport getBirthEvent(BirthReport birthReport) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public List getAllBirthEvents() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public List findBirthEventsByReporter(int reporterId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public boolean isBirthEventSaved(BirthReport birthReport) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public boolean saveBirthEvent(BirthReport birthReport) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public boolean deleteBirthEvent(BirthReport birthReport) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public List getBirthEvents() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
     
+    @Autowired
+    private BirthEventDAO birthEventDAO;
+
+     @Override
+    public boolean isEventSaved(Object obj) {
+        
+        boolean isSaved = false;
+        
+        if (obj instanceof BirthReport)
+        {
+            BirthReport birthReport = (BirthReport) obj;
+            
+            if (birthEventDAO.getBirthEvent(birthReport) != null){
+                isSaved = true;
+            }
+            else {
+                isSaved = false; }
+        }
+        
+        return isSaved;       
+    }
+
+    @Override
+    public List getAllEvents() {
+        
+        return birthEventDAO.getBirthEvents();
+    }
+
+    @Override
+    public List findEventsByReporter(int reporterId) {
+        
+        return birthEventDAO.getDeathEventsByReporter(reporterId);
+    }
+
+    @Override
+    public BirthReport getBirthEvent(BirthReport birthReport) {
+        
+        return birthEventDAO.getBirthEvent(birthReport);
+    }
+
+    @Override
+    public boolean saveBirthEvent(BirthReport birthReport) {
+        
+        return birthEventDAO.saveBirthEvent(birthReport);
+    }
+
+    @Override
+    public boolean deleteBirthEvent(BirthReport birthReport) {
+        
+        return birthEventDAO.deleteBirthEvent(birthReport);
+    }
+
 }

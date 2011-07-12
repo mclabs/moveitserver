@@ -18,10 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.openxdata.modules.moveit.server.exceptions.EventNotSavedException;
 import org.openxdata.modules.moveit.server.exceptions.ParamNotSetException;
+import org.openxdata.modules.moveit.server.model.DeathReport;
 import org.openxdata.modules.moveit.server.service.DeathEventService;
 import org.openxdata.modules.moveit.server.util.Constants;
 import org.openxdata.server.Context;
-import org.openxdata.server.admin.model.DeathReport;
+
 
 /**
  *

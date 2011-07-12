@@ -11,7 +11,7 @@ import java.util.Date;
  *
  * @author jmaina
  */
-public class BirthReport extends AbstractEditable implements Serializable
+public class BirthReport implements Serializable
 {
 
     /** this is the id birthReport entry */ 

@@ -4,13 +4,14 @@
  */
 package org.openxdata.modules.moveit.server.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author jmaina
  */
-public class DeathReport extends AbstractEditable  {
+public class DeathReport implements Serializable {
     
     /** this is the id birthReport entry */ 
     private int deathReportId;
@@ -30,11 +31,14 @@ public class DeathReport extends AbstractEditable  {
     /**this represents the unique id of the particular event */
     private String eventId;
     
-    /** this represents the event whether its a birth */
+    /** this represents the event whether its a birth or death*/
     private String eventType;
     
     /** this represents identification of the person concerned with the event */
     private String eventName;
+    
+    /** this represents the contact number for the bereaved */
+    private String contactPhone;
     
     
     
@@ -117,12 +121,13 @@ public class DeathReport extends AbstractEditable  {
     public int getId() {
         return deathReportId;
     }
+
+    public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
      
-    
-    
-    
-    
-    
-    
-    
 }

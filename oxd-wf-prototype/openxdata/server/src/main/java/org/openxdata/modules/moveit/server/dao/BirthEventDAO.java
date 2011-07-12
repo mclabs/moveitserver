@@ -5,14 +5,14 @@
 package org.openxdata.modules.moveit.server.dao;
 
 import java.util.List;
-import org.openxdata.server.admin.model.BirthReport;
+import org.openxdata.modules.moveit.server.model.BirthReport;
 import org.openxdata.server.dao.BaseDAO;
 
 /**
  *
  * @author jmaina
  */
-public interface BirthEventDAO extends BaseDAO {
+public interface BirthEventDAO extends BaseDAO<BirthReport> {
     
     
     
@@ -20,21 +20,21 @@ public interface BirthEventDAO extends BaseDAO {
      * Save an instance of a birth event 
      * @param birthReport 
      */
-     public void saveBirthEvent(BirthReport birthReport);
+     public boolean saveBirthEvent(BirthReport birthReport);
      
      
      /**
       * Delete an instance of a birth event
       * @param birthReport 
       */
-     public void deleteBirthEvent(BirthReport birthReport);
+     public boolean deleteBirthEvent(BirthReport birthReport);
      
      
      /**
       * Returns a list of Birth Events
       * @return 
       */
-     public List getBirthEvents();
+     public List<BirthReport> getBirthEvents();
      
      
      /**
@@ -45,6 +45,9 @@ public interface BirthEventDAO extends BaseDAO {
      * the RapidSMS system that the sms has been successfully saved.
      * @return 
      */
-     public boolean savedBirthEvents();
+     public BirthReport getBirthEvent(BirthReport birthReport);
+     
+     
+     public List<BirthReport> getDeathEventsByReporter(int reporterId);
     
 }

@@ -5,8 +5,10 @@
 package org.openxdata.modules.moveit.server.dao.hibernate;
 
 import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.openxdata.modules.moveit.server.dao.BirthEventDAO;
-import org.openxdata.server.admin.model.BirthReport;
+import org.openxdata.modules.moveit.server.model.BirthReport;
 import org.openxdata.server.dao.hibernate.BaseDAOImpl;
 import org.springframework.stereotype.Repository;
 
@@ -16,27 +18,71 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository("birthEventDAO")
-public class HibernateBirthEventDAO extends BaseDAOImpl implements BirthEventDAO
+public class HibernateBirthEventDAO extends BaseDAOImpl<BirthReport> implements BirthEventDAO
 {
 
-    public void saveBirthEvent(BirthReport birthReport) {
-        save(birthReport);
+    @Override
+    public boolean saveBirthEvent(BirthReport birthReport) {
+       
+        boolean success = false;
+        
+        try{
+            save(birthReport);
+            success = true;
+        }
+        catch (Exception ets)
+        {
+            /**
+             * to log the reason for failure
+             */
+        }
+        
+        return success;
     }
 
-    public void deleteBirthEvent(BirthReport birthReport) {
-        remove(birthReport);
+    @Override
+    public boolean deleteBirthEvent(BirthReport birthReport) {
+               
+        boolean success = false;
+        
+        try{
+            remove(birthReport);
+            success = true;
+        }
+        catch (Exception ets)
+        {
+            /** 
+             * to log reason for failure
+             */
+        }
+        
+        return success;       
     }
 
-    public List getBirthEvents() {
-        return findAll();
+    @Override
+    public List<BirthReport> getBirthEvents() {
+       return findAll();
+    }
+   
+   
+
+    @Override
+    public List<BirthReport> getDeathEventsByReporter(int reporterId) {
+        
+        Criteria birthCriteria = getSession().createCriteria(BirthReport.class).
+                                                add(Restrictions.eq("reporterId",reporterId ));
+        
+        return birthCriteria.list();
     }
 
-    /**
-     * to be implemented in the service layer
-     * @return 
-     */
-    public boolean savedBirthEvents() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Override
+    public BirthReport getBirthEvent(BirthReport birthReport) {
+        
+        Criteria birthCriteria = getSession().createCriteria(BirthReport.class).
+                                                add(Restrictions.eq("birthReportId", birthReport.getBirthReportId()));
+        
+        return (BirthReport) birthCriteria.list().get(0);
     }
+
     
 }

@@ -4,8 +4,7 @@
  */
 package org.openxdata.modules.moveit.server.service;
 
-import java.util.List;
-import org.openxdata.server.admin.model.BirthReport;
+import org.openxdata.modules.moveit.server.model.BirthReport;
 
 /**
  *
@@ -20,34 +19,6 @@ public interface BirthEventService
      * @param birthReport 
      */
     public BirthReport getBirthEvent(BirthReport birthReport);
-    
-    
-    /**
-     * getting all Birth records received by the system
-     */
-    public List getAllBirthEvents();
-    
-    
-    /**
-     * Get all the BirthRecords that a specific user sent
-     * @param birthReport
-     * @return 
-     */
-    public List findBirthEventsByReporter(int reporterId);
-    
-    
-    /**
-     * This method is responsible for returning a success code to the servlet this 
-     * is to respond whether the record received from RapidSMS saved successfully.
-     * 
-     * It returns an abstraction of a status code. Either true for success or 
-     * false for failure.
-     * 
-     * @param birthReport
-     * @return 
-     */
-    
-    public boolean isBirthEventSaved(BirthReport birthReport);
     
     
     /**
@@ -66,12 +37,7 @@ public interface BirthEventService
     public boolean deleteBirthEvent(BirthReport birthReport);
      
      
-     /**
-      * Returns a list of Birth Events
-      * @return 
-      */
-    
-    public List getBirthEvents();
+     
      
      
     

@@ -5,8 +5,10 @@
 package org.openxdata.modules.moveit.server.service.impl;
 
 import java.util.List;
-import org.openxdata.server.admin.model.DeathReport;
-import org.openxdata.server.service.DeathEventService;
+import org.openxdata.modules.moveit.server.dao.DeathEventDAO;
+import org.openxdata.modules.moveit.server.model.DeathReport;
+import org.openxdata.modules.moveit.server.service.DeathEventService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,35 +19,74 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service("deathEventService")
-public class DeathEventServiceImpl implements DeathEventService
+public class DeathEventServiceImpl  extends EventService implements DeathEventService
 {
+    @Autowired
+    private DeathEventDAO deathEventDAO;
+    
+    private boolean status;
 
+    /**
+     * this is a generic method for testing whether the Event in question was successfully saved.
+     * 
+     * @param obj
+     * @return 
+     */
+    @Override
+    public boolean isEventSaved(Object obj) {
+        
+        boolean isSaved = false;
+        
+        if (obj instanceof DeathReport)
+        {
+            DeathReport deathReport = (DeathReport) obj;
+            
+            if (deathEventDAO.getDeathEvent(deathReport) != null)
+                isSaved = true;
+            else
+                isSaved = false;
+        }       
+        
+        return isSaved;
+        
+    }
+
+    @Override
+    public List<DeathReport> getAllEvents() {
+        return deathEventDAO.findAll();
+    }
+
+    @Override
+    public List<DeathReport> findEventsByReporter(int reporterId) {
+       
+        return deathEventDAO.getDeathEventsByReporter(reporterId);
+    }
+
+    @Override
     public DeathReport getDeathEvent(DeathReport deathReport) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        return deathEventDAO.getDeathEvent(deathReport);
     }
 
-    public List<DeathReport> getAllDeathReports() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public List<DeathReport> getDeathEventsByReporter(int reporterId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    /**
+     * 
+     * we need an indicator whether saving was successful or not
+     * 
+     * @param deathEvent
+     * @return 
+     */
+    @Override
     public boolean saveDeathEvent(DeathReport deathEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        return deathEventDAO.saveDeathEvent(deathEvent);
     }
 
+    @Override
     public boolean deleteDeathEvent(DeathReport deathEvent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        return deathEventDAO.deleteDeathEvent(deathEvent);
     }
 
-    public List<DeathReport> getDeathEvents() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public boolean isSavedDeathEvents() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
     
 }

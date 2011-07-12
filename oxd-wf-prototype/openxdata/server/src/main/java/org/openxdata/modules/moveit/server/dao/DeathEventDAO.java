@@ -5,7 +5,7 @@
 package org.openxdata.modules.moveit.server.dao;
 
 import java.util.List;
-import org.openxdata.server.admin.model.DeathReport;
+import org.openxdata.modules.moveit.server.model.DeathReport;
 import org.openxdata.server.dao.BaseDAO;
 
 /**
@@ -20,32 +20,34 @@ public interface DeathEventDAO extends BaseDAO
      * 
      * @param deathEvent 
      */
-    public void saveDeathEvent(DeathReport deathEvent);
+    public boolean saveDeathEvent(DeathReport deathEvent);
     
+    
+    /**
+     * Get a specific Death Record
+     * 
+     * @param deathReport
+     * @return 
+     */
+    public DeathReport getDeathEvent(DeathReport deathReport);
     
     /**
      * deletes an instance of a death event
      * @param deathEvent 
      */
-    public void deleteDeathEvent(DeathReport deathEvent);
+    public boolean deleteDeathEvent(DeathReport deathEvent);
+    
     
     
     /**
      * Returns a list of saved Death Events
      * @return 
      */
-    public List  getDeathEvents();
+    public List<DeathReport>  getDeathEvents();
     
     
-    /**
-     * TODO -> this should be in the service layer.
-     * 
-     * this is a handler for returning to the service layer a success status
-     * whether saving was successful or not. It is to be used when replying to 
-     * the RapidSMS system that the sms has been successfully saved.
-     * @return 
-     */
+  
+    public List<DeathReport> getDeathEventsByReporter(int reporterId);
     
-    public boolean savedDeathEvents();
     
 }
