@@ -33,5 +33,10 @@
     <mapping resource="org/openxdata/modules/workflows/server/hibernate/mappings/Specifications.hbm.xml"/>
     <mapping resource="org/openxdata/modules/workflows/server/hibernate/mappings/SpecStudyMaps.hbm.xml"/>
     <mapping resource="org/openxdata/modules/workflows/server/hibernate/mappings/Workitems.hbm.xml"/>
+    
+    
+    <!-- MoveIT Mappings-->    
+    <mapping resource="org/openxdata/modules/moveit/server/hibernate/mappings/BirthReport.hbm.xml"/>
+    <mapping resource="org/openxdata/modules/moveit/server/hibernate/mappings/DeathReport.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
