@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+    
+    
+
+<!--
+    Document   : BirthReport.hbm.xml.xml
+    Created on : July 8, 2011, 11:25 AM
+    Author     : jmaina
+    Description:
+        Purpose of the document follows.
+-->
+
+<hibernate-mapping package="org.openxdata.server.admin.model">
+    
+    <class  name="DeathReport" table="death_report">
+        
+            <id
+                
+                name="deathReportId" type="int" column="deathreport_id" unsaved-value="0">
+				<generator class="native">
+					 <param name="sequence">death_report_id</param>
+				</generator>
+              
+            </id>
+            
+            <property name="dateOfReport" type="timestamp" column="date_of_deathreport" not-null="true" />
+            
+            <property name="dateOfEvent" type="timestamp" column="date_of_deathevent" not-null="true" />
+            
+            <property name="dateTimeStamp" type="timestamp" column="date_of_dateOXDtimestamp" not-null="true" />
+            
+            <property name="reporterId" type="int" column="reporter_id" not-null="true" />
+            
+            <property name="eventId" type="java.lang.String" column="event_identifier" not-null="true" />
+            
+            <property name="eventType" type="java.lang.String" column="event_type" not-null="true" />
+            
+            <property name="eventName" type="java.lang.String" column="event_name" not-null="true" />
+            
+            <property name="contactPhone" type="java.lang.String" column="contact_phone" not-null="true" />
+               
+        
+    </class>
+    
+</hibernate-mapping>
