@@ -117,7 +117,8 @@ public class DeathReportServlet extends HttpServlet{
 
         if((tmpParam=req.getParameter(Constants.EVENT_DATE))!=null){
             //TODO: change to chack date formart of incoming string
-            deathReport.setDateOfEvent(new Date(tmpParam));
+            long timestamp = Long.valueOf(tmpParam).longValue();
+            deathReport.setDateOfEvent(new Date(timestamp));
             //reset tmpParam variable for next check
             tmpParam = null;
         }else{
@@ -134,7 +135,10 @@ public class DeathReportServlet extends HttpServlet{
         }
 
         if((tmpParam=req.getParameter(Constants.EVENT_REPORT_DATE))!=null){
-            deathReport.setDateOfReport(new Date(tmpParam));
+            
+            long timestamp = Long.valueOf(tmpParam).longValue();
+            
+            deathReport.setDateOfReport(new Date(timestamp));
             //reset tmpParam variable for next check
             tmpParam = null;
         }else{
