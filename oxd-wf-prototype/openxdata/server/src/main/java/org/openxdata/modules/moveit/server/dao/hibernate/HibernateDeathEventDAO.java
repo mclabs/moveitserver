@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository("deathEventDAO")
-public class HibernateDeathEventDAO extends BaseDAOImpl<DeathReport> implements DeathEventDAO
+public class HibernateDeathEventDAO extends BaseDAOImpl implements DeathEventDAO
 {
     
     /**

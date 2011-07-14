@@ -1024,5 +1024,91 @@
             <column name="version" type="VARCHAR(255)"/>
         </addColumn>
     </changeSet>
+    
+     <!--=====================================================================
+    MoveIT Configuration
+    =======================================================================-->
+    
+    <changeSet id="1-create-birth-event-table" author="jmaina">
+        
+        <preConditions>
+            <not>
+                <tableExists tableName="birth_report"/>
+            </not>
+        </preConditions>
+        
+        <createTable tableName="birth_report">
+            <column name="birthreport_id" autoIncrement="true"   type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="date_of_birthreport" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_birthevent" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_dateOXDtimestamp" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reporter_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_identifier" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contact_phone" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+          
+         </createTable>
+               
+    </changeSet>
+    
+    <changeSet id="2-create-death-event-table" author="jmaina">
+        
+        <preConditions>
+            <not>
+                <tableExists tableName="death_report"/>
+            </not>
+        </preConditions>
+        
+        <createTable tableName="death_report">
+            <column name="deathreport_id" autoIncrement="true"   type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="date_of_deathreport" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_deathevent" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_dateOXDtimestamp" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reporter_id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_identifier" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="event_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contact_phone" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            
+         </createTable>
+               
+    </changeSet>
 
 </databaseChangeLog>

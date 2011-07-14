@@ -1,3 +1,3 @@
-create database openxdata;
+create database moveit;
 
-grant all on openxdata.* to test@localhost;
+grant all on moveit.* to test@localhost;

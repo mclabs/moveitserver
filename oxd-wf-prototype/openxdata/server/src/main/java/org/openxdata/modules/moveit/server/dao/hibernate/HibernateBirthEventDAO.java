@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository("birthEventDAO")
-public class HibernateBirthEventDAO extends BaseDAOImpl<BirthReport> implements BirthEventDAO
+public class HibernateBirthEventDAO extends BaseDAOImpl implements BirthEventDAO
 {
 
     @Override

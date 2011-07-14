@@ -12,7 +12,7 @@ import org.openxdata.server.dao.BaseDAO;
  *
  * @author jmaina
  */
-public interface BirthEventDAO extends BaseDAO<BirthReport> {
+public interface BirthEventDAO extends BaseDAO {
     
     
     

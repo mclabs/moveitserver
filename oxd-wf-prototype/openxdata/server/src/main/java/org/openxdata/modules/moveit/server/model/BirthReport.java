@@ -37,8 +37,9 @@ public class BirthReport implements Serializable
     
     /** this represents identification of the person concerned with the event */
     private String eventName;
-
     
+    private String contactPhone;
+
     
     public void setBirthReportId(int birthReportId) {
         this.birthReportId = birthReportId;
@@ -113,6 +114,17 @@ public class BirthReport implements Serializable
     public int getId() {
         return birthReportId;
     }
+
+     public void setContactPhone(String contactPhone) {
+        this.contactPhone = contactPhone;
+    }
+
+    public String getContactPhone() {
+        return contactPhone;
+    }
+    
+    
+    
 
     
     

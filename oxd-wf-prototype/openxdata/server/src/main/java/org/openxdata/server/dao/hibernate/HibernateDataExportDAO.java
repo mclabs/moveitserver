@@ -60,31 +60,10 @@ public class HibernateDataExportDAO extends BaseDAOImpl<Editable> implements Dat
 
     @Override
 	@SuppressWarnings("unchecked")
-    public List<String> getFormData(Integer formDefVersionId, Date fromDate, Date toDate, Integer userId) {
-        Session session = getSessionFactory().getCurrentSession();
-
-        String sql = "select d.data from form_data d ";
-
-        String filter = null;
-        if (!(formDefVersionId == null && fromDate == null && toDate == null && userId == null)) {
-            filter = addIntegerFilter(filter, "d.form_definition_version_id", formDefVersionId);
-            filter = addIntegerFilter(filter, "d.creator", userId);
-            filter = addDateFilter(filter, "d.date_created", fromDate, toDate);
-            sql += filter;
-        }
-
-        SQLQuery query = session.createSQLQuery(sql);
-        query.addScalar("data", Hibernate.STRING);
-        List<String> items = query.list();
-
-        return items;
-    }
-
-    @Override
-	@SuppressWarnings("unchecked")
 	public List<Object[]> getFormDataWithAuditing(Integer formDefVersionId, Date fromDate, Date toDate, Integer userId) {
         Session session = getSessionFactory().getCurrentSession();
         String sql = "select d.form_data_id, u.user_name, d.date_created, d.data from form_data d, users u";
+        // FIXME: see HibernateEditableDAO.getFormData
         String filter = null;
         if (!(formDefVersionId == null && fromDate == null && toDate == null && userId == null)) {
             filter = addIntegerFilter(filter, "d.form_definition_version_id", formDefVersionId);
@@ -196,5 +175,10 @@ public class HibernateDataExportDAO extends BaseDAOImpl<Editable> implements Dat
     @Override
 	public StudyDef getStudyDef(Integer studyId) {
         return (StudyDef) getSessionFactory().getCurrentSession().createQuery("from StudyDef where studyId=" + studyId).uniqueResult();
+    }
+
+    @Override
+    public List<String> getFormData(Integer formDefVersionId, Date fromDate, Date toDate, Integer userId) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
