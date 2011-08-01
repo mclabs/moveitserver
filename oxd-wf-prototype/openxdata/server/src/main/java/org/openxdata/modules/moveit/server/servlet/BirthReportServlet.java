@@ -59,7 +59,7 @@ public class BirthReportServlet extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        //super.doGet(req, resp);
         try {
 
             processRequest(req, resp);
@@ -71,7 +71,7 @@ public class BirthReportServlet extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        //super.doPost(req, resp);
         try {
             processRequest(req, resp);
         } catch (EventNotSavedException ex) {
