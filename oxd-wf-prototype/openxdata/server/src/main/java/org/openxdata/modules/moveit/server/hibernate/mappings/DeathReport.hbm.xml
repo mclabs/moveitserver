@@ -22,5 +22,6 @@
     <property column="event_type" name="eventType" not-null="true" type="java.lang.String"/>
     <property column="event_name" name="eventName" not-null="true" type="java.lang.String"/>
     <property column="contact_phone" name="contactPhone" not-null="true" type="java.lang.String"/>
+    <property column="village" name="village" not-null="true" type="java.lang.String"/>
   </class>
 </hibernate-mapping>

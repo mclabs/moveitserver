@@ -10,6 +10,10 @@ import java.util.Date;
 /**
  *
  * @author jmaina
+ * 
+ * to be altered so that DeathhReport becomes of type Event.
+ * Event becomes the superclass. 
+ * 
  */
 public class DeathReport implements Serializable {
     
@@ -40,6 +44,9 @@ public class DeathReport implements Serializable {
     /** this represents the contact number for the bereaved */
     private String contactPhone;
     
+    /**this represents the village where the event occured */
+    private String village;
+
     
     
     public void setDeathReportId(int deathReportId) {
@@ -129,5 +136,14 @@ public class DeathReport implements Serializable {
     public String getContactPhone() {
         return contactPhone;
     }
+    
+    public String getVillage() {
+        return village;
+    }
+
+    public void setVillage(String village) {
+        this.village = village;
+    }
+    
      
 }

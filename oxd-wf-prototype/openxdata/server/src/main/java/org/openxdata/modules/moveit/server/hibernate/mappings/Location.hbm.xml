@@ -1,0 +1,12 @@
+<hibernate-mapping package="org.openxdata.modules.moveit.server.model">
+  <class name="Location" table="location">
+    <id column="location_id" name="locationId" type="int" unsaved-value="0">
+      <generator class="native">location_id</param>
+      </generator>
+    </id>
+    
+    <property column="location_text_name" name="locationTextName" not-null="true" type="java.lang.String"/>
+    <property column="location_coded_name" name="locationCodedName" not-null="true" type="java.lang.String"/>
+    
+  </class>
+</hibernate-mapping>
