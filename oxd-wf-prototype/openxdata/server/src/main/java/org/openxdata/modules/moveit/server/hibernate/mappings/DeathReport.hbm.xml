@@ -10,7 +10,7 @@
 <hibernate-mapping package="org.openxdata.modules.moveit.server.model">
   <class name="DeathReport" table="death_report">
     <id column="deathreport_id" name="deathReportId" type="int" unsaved-value="0">
-      <generator class="native">
+      <generator class="identity">
         <param name="sequence">death_report_id</param>
       </generator>
     </id>
