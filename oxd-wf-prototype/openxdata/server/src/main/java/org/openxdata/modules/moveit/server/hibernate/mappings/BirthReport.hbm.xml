@@ -9,10 +9,8 @@
 -->
 <hibernate-mapping package="org.openxdata.modules.moveit.server.model">
   <class name="BirthReport" table="birth_report">
-    <id column="birthreport_id" name="birthReportId" type="int" unsaved-value="0">
-      <generator class="identity">
-        <param name="sequence">birth_report_id</param>
-      </generator>
+    <id column="birthreport_id" name="birthReportId" type="int">
+      <generator class="native"/>
     </id>
     <property column="date_of_birthreport" name="dateOfReport" not-null="true" type="timestamp"/>
     <property column="date_of_birthevent" name="dateOfEvent" not-null="true" type="timestamp"/>
@@ -22,6 +20,5 @@
     <property column="event_type" name="eventType" not-null="true" type="java.lang.String"/>
     <property column="event_name" name="eventName" not-null="true" type="java.lang.String"/>
     <property column="contact_phone" name="contactPhone" not-null="true" type="java.lang.String"/>
-    <property column="village" name="village" not-null="true" type="java.lang.String"/>
   </class>
 </hibernate-mapping>

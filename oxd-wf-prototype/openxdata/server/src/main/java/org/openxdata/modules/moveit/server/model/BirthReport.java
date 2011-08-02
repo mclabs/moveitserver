@@ -44,8 +44,7 @@ public class BirthReport implements Serializable
     
     private String contactPhone;
     
-    /**this represents the village where the event occured */
-    private String village;
+   
     
     public void setBirthReportId(int birthReportId) {
         this.birthReportId = birthReportId;
@@ -128,16 +127,6 @@ public class BirthReport implements Serializable
     public String getContactPhone() {
         return contactPhone;
     }
-    
-    
-    public String getVillage() {
-        return village;
-    }
-
-    public void setVillage(String village) {
-        this.village = village;
-    }
-    
     
     
     

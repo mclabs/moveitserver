@@ -44,9 +44,7 @@ public class DeathReport implements Serializable {
     /** this represents the contact number for the bereaved */
     private String contactPhone;
     
-    /**this represents the village where the event occured */
-    private String village;
-
+   
     
     
     public void setDeathReportId(int deathReportId) {
@@ -137,13 +135,7 @@ public class DeathReport implements Serializable {
         return contactPhone;
     }
     
-    public String getVillage() {
-        return village;
-    }
-
-    public void setVillage(String village) {
-        this.village = village;
-    }
+   
     
      
 }

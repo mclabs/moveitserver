@@ -69,8 +69,7 @@ public class EventXFormHandlers {
                                     "<occupation/>"+
                                     "<mother_id_number/>"+
                                     "<level_of_education/>"+
-                                    "<usual_residence>"
-                                           + birthReport.getVillage() + 
+                                    "<usual_residence>" +
                                     "<usual_residence/>" +
                                     "<previous_born_alive/>"+
                                     "<previous_born_dead/>"+
@@ -136,8 +135,7 @@ public class EventXFormHandlers {
                                     "<registration_date/>" + 
                                     "<healthinstitution/>" + 
                                     "<registration_signature/>" +
-                                    "<district>" 
-                                            + deathReport.getVillage() + 
+                                    "<district>" +
                                     "<district/>" +
                                     "<registration_number/>" +
                                     "<registrar_date>" 

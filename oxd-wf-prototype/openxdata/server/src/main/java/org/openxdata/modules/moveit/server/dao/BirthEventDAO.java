@@ -4,15 +4,15 @@
  */
 package org.openxdata.modules.moveit.server.dao;
 
+import com.trg.dao.hibernate.GenericDAO;
 import java.util.List;
 import org.openxdata.modules.moveit.server.model.BirthReport;
-import org.openxdata.server.dao.BaseDAO;
 
 /**
  *
  * @author jmaina
  */
-public interface BirthEventDAO extends BaseDAO {
+public interface BirthEventDAO extends GenericDAO<BirthReport, Integer>{
     
     
     

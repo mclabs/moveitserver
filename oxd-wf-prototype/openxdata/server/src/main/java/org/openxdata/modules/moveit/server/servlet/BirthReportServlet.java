@@ -35,7 +35,8 @@ import org.openxdata.server.service.FormService;
 
 @Singleton
 public class BirthReportServlet extends HttpServlet{
-    BirthEventService birthService;
+    
+    BirthEventService birthService;   
     BirthReport birthReport;
     AuthenticationService authService;
     FormService formService;
@@ -153,6 +154,7 @@ public class BirthReportServlet extends HttpServlet{
         if((tmpParam=req.getParameter(Constants.EVENT_ID))!=null){
 
             birthReport.setEventId(tmpParam);
+            System.out.println(tmpParam);
 
             //reset tmpParam variable for next check
             tmpParam = null;
@@ -162,6 +164,7 @@ public class BirthReportServlet extends HttpServlet{
 
         if((tmpParam=req.getParameter(Constants.EVENT_NAME))!=null){
             birthReport.setEventName(tmpParam);
+            System.out.println(tmpParam);
 
             //reset tmpParam variable for next check
             tmpParam = null;
@@ -171,6 +174,7 @@ public class BirthReportServlet extends HttpServlet{
 
         if((tmpParam=req.getParameter(Constants.EVENT_TYPE))!=null){
             birthReport.setEventType(tmpParam);
+            System.out.println(tmpParam);
 
             //reset tmpParam variable for next check
             tmpParam = null;
@@ -184,6 +188,7 @@ public class BirthReportServlet extends HttpServlet{
             long timestamp = Long.valueOf(tmpParam).longValue();
             birthReport.setDateOfEvent(new Date(timestamp));
             //reset tmpParam variable for next check
+            System.out.println(tmpParam);
             tmpParam = null;
         }else{
             throw new ParamNotSetException(Constants.EVENT_DATE);
@@ -193,6 +198,7 @@ public class BirthReportServlet extends HttpServlet{
         if((tmpParam=req.getParameter(Constants.EVENT_REPORTER))!=null){
             birthReport.setReporterId(Integer.valueOf(tmpParam));
             //reset tmpParam variable for next check
+            System.out.println(tmpParam);
             tmpParam = null;
         }else{
             throw new ParamNotSetException(Constants.EVENT_REPORTER);
@@ -202,6 +208,7 @@ public class BirthReportServlet extends HttpServlet{
             long timestamp = Long.valueOf(tmpParam).longValue();
             birthReport.setDateOfReport(new Date(timestamp));
             //reset tmpParam variable for next check
+            System.out.println(tmpParam);
             tmpParam = null;
         }else{
             throw new ParamNotSetException(Constants.EVENT_REPORT_DATE);
@@ -209,6 +216,7 @@ public class BirthReportServlet extends HttpServlet{
 
         if((tmpParam=req.getParameter(Constants.EVENT_CONTACT))!=null){
             birthReport.setContactPhone(tmpParam);
+            System.out.println(tmpParam);
             //reset tmpParam variable for next check
             tmpParam = null;
         }else{
@@ -218,6 +226,7 @@ public class BirthReportServlet extends HttpServlet{
 
         //set the date captured in oxd
         birthReport.setDateTimeStamp(calendar.getTime());
+        System.out.println(calendar.getTime());
 
 
 

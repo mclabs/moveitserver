@@ -4,12 +4,14 @@
  */
 package org.openxdata.modules.moveit.server.dao.hibernate;
 
+import com.trg.dao.hibernate.GenericDAOImpl;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.openxdata.modules.moveit.server.dao.BirthEventDAO;
 import org.openxdata.modules.moveit.server.model.BirthReport;
-import org.openxdata.server.dao.hibernate.BaseDAOImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -18,8 +20,15 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository("birthEventDAO")
-public class HibernateBirthEventDAO extends BaseDAOImpl implements BirthEventDAO
+public class HibernateBirthEventDAO extends GenericDAOImpl<BirthReport, Integer> implements BirthEventDAO
 {
+    
+        @Autowired
+        @Override
+        public void setSessionFactory(SessionFactory sessionFactory)
+        {
+                super.setSessionFactory(sessionFactory);
+        }
 
     @Override
     public boolean saveBirthEvent(BirthReport birthReport) {
