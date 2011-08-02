@@ -1039,7 +1039,7 @@
         
         <createTable tableName="birth_report">
             <column name="birthreport_id" autoIncrement="true"   type="BIGINT">
-                <constraints nullable="true" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="date_of_birthreport" type="DATETIME">
                 <constraints nullable="false"/>
@@ -1080,7 +1080,7 @@
         
         <createTable tableName="death_report">
             <column name="deathreport_id" autoIncrement="true"   type="BIGINT">
-                <constraints nullable="true" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="date_of_deathreport" type="DATETIME">
                 <constraints nullable="false"/>
@@ -1111,9 +1111,11 @@
                
     </changeSet>
     
+    <changeSet id="3-create-location-event-table" author="jmaina">
+        
     <createTable tableName="location">
             <column name="location_id" autoIncrement="true"   type="BIGINT">
-                <constraints nullable="true" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             
             <column name="location_text_name" type="VARCHAR(255)">
@@ -1124,5 +1126,7 @@
             </column>
             
     </createTable>
+    
+    </changeSet>
 
 </databaseChangeLog>
