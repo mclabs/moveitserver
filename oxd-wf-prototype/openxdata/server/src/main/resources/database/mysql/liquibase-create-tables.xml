@@ -1038,7 +1038,7 @@
         </preConditions>
         
         <createTable tableName="birth_report">
-            <column name="birthreport_id" autoIncrement="true"   type="BIGINT">
+            <column name="birthreport_id" autoIncrement="true"   type="INT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="date_of_birthreport" type="DATETIME">
@@ -1079,7 +1079,7 @@
         </preConditions>
         
         <createTable tableName="death_report">
-            <column name="deathreport_id" autoIncrement="true"   type="BIGINT">
+            <column name="deathreport_id" autoIncrement="true"   type="INT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="date_of_deathreport" type="DATETIME">
@@ -1114,7 +1114,7 @@
     <changeSet id="3-create-location-event-table" author="jmaina">
         
     <createTable tableName="location">
-            <column name="location_id" autoIncrement="true"   type="BIGINT">
+            <column name="location_id" autoIncrement="true"   type="INT">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             
