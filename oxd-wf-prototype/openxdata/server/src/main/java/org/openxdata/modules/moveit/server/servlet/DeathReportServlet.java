@@ -96,7 +96,15 @@ public class DeathReportServlet extends HttpServlet{
         }
 
 
-
+        if (deathService!=null) {
+            System.out.println("deaTH SERVICE NOT NULL");
+        }
+        
+        
+        if (deathReport!=null) {
+            System.out.println("deaTH REPORT NOT NULL");
+        }
+        
         if(!deathService.saveDeathEvent(deathReport)){
             throw new EventNotSavedException(deathReport.getEventId());
         }else{

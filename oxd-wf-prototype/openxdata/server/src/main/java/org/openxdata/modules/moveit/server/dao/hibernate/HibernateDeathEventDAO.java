@@ -6,6 +6,8 @@ package org.openxdata.modules.moveit.server.dao.hibernate;
 
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.openxdata.modules.moveit.server.dao.DeathEventDAO;
 import org.openxdata.modules.moveit.server.model.DeathReport;
@@ -20,7 +22,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository("deathEventDAO")
-public class HibernateDeathEventDAO extends BaseDAOImpl implements DeathEventDAO
+public class HibernateDeathEventDAO extends BaseDAOImpl<DeathReport>  implements DeathEventDAO
 {
     
     /**
@@ -28,41 +30,46 @@ public class HibernateDeathEventDAO extends BaseDAOImpl implements DeathEventDAO
      * @param deathEvent
      * @return 
      */
+    
+    @Override
+    protected Session getSession() {
+            return getSessionFactory().getCurrentSession();
+    }
+
 
     @Override
     public boolean saveDeathEvent(DeathReport deathEvent) {
         
-        boolean success = false;
-        try{
-            save(deathEvent);
-            success = true;
-        }
-        catch (Exception ets)
+        boolean status = false;
+        
+        if (deathEvent != null)
         {
-            /**
-             * to log the reason for failure
-             */
+            Session session = getSession();
+            Transaction tx = session.beginTransaction();
+            tx.begin();
+            session.save(deathEvent);
+            tx.commit(); 
+            return status = true;
         }
         
-        return success;     
+        else
+        {
+            System.out.println(deathEvent.getEventId());
+            System.out.println("the object is null");
+            return status;
+        }
+      
     }
 
     @Override
     public boolean deleteDeathEvent(DeathReport deathEvent) {
         
-        boolean success = false;
-        try{
-            remove(deathEvent);
-            success = true;
-        }
-        catch (Exception ets)
-        {
-            /**
-             * to log the reason for failure
-             */
-        }
-        
-        return success;
+        Session session = getSession();
+        Transaction tx = session.beginTransaction();
+        tx.begin();
+        session.delete(deathEvent);
+        tx.commit();
+        return true;
     }
 
     @Override

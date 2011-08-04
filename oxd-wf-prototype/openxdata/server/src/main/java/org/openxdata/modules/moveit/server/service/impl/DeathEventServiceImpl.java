@@ -24,7 +24,6 @@ public class DeathEventServiceImpl  extends EventService implements DeathEventSe
     @Autowired
     private DeathEventDAO deathEventDAO;
     
-    private boolean status;
 
     /**
      * this is a generic method for testing whether the Event in question was successfully saved.

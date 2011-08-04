@@ -12,7 +12,7 @@ import org.openxdata.server.dao.BaseDAO;
  *
  * @author jmaina
  */
-public interface DeathEventDAO extends BaseDAO
+public interface DeathEventDAO extends BaseDAO<DeathReport> 
 {
     
     /**

@@ -7,7 +7,9 @@ package org.openxdata.modules.moveit.server.dao.hibernate;
 import com.trg.dao.hibernate.GenericDAOImpl;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.openxdata.modules.moveit.server.dao.BirthEventDAO;
 import org.openxdata.modules.moveit.server.model.BirthReport;
@@ -30,42 +32,55 @@ public class HibernateBirthEventDAO extends GenericDAOImpl<BirthReport, Integer>
                 super.setSessionFactory(sessionFactory);
         }
 
+        
+        /**
+         * the error is appearing because it is performing an update, this is due
+         * to the fact that it is being seen as the same object
+         * @param birthReport
+         * @return 
+         */
     @Override
     public boolean saveBirthEvent(BirthReport birthReport) {
-       
-        boolean success = false;
         
-        try{
-            save(birthReport);
-            success = true;
-        }
-        catch (Exception ets)
+        /*
+         *return save(birthReport);
+         *  
+         * we are going to try something to see whether there will
+         * be an increment
+         * 
+         * 
+         * works only once. could it be it is because there is only one single session
+         * for one particular object.
+         * 
+         * 
+         */
+        
+        boolean status = false;
+        
+        if (birthReport != null)
         {
-            /**
-             * to log the reason for failure
-             */
+            Session session = getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            tx.begin();
+            session.save(birthReport);
+            tx.commit(); 
+            return status = true;
         }
         
-        return success;
+        else
+        {
+            System.out.println(birthReport.getEventId());
+            System.out.println("the object is null");
+            return status;
+        }
+      
+        
     }
 
     @Override
     public boolean deleteBirthEvent(BirthReport birthReport) {
                
-        boolean success = false;
-        
-        try{
-            remove(birthReport);
-            success = true;
-        }
-        catch (Exception ets)
-        {
-            /** 
-             * to log reason for failure
-             */
-        }
-        
-        return success;       
+        return remove(birthReport);
     }
 
     @Override

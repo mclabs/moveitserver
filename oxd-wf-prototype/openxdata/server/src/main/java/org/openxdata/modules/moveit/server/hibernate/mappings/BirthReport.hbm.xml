@@ -7,9 +7,9 @@
     Description:
         Purpose of the document follows.
 -->
-<hibernate-mapping package="org.openxdata.modules.moveit.server.model">
+<hibernate-mapping package="org.openxdata.modules.moveit.server.model" >
   <class name="BirthReport" table="birth_report">
-    <id column="birthreport_id" name="birthReportId" type="int">
+    <id column="birthreport_id" name="birthReportId" type="int" unsaved-value="0">
       <generator class="native"/>
     </id>
     <property column="date_of_birthreport" name="dateOfReport" not-null="true" type="timestamp"/>

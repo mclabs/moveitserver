@@ -4,8 +4,8 @@
  */
 package org.openxdata.modules.moveit.server.model;
 
-import java.io.Serializable;
 import java.util.Date;
+import org.openxdata.server.admin.model.AbstractEditable;
 
 /**
  *
@@ -15,7 +15,7 @@ import java.util.Date;
  * Event becomes the superclass. 
  * 
  */
-public class DeathReport implements Serializable {
+public class DeathReport extends AbstractEditable {
     
     /** this is the id birthReport entry */ 
     private int deathReportId;
