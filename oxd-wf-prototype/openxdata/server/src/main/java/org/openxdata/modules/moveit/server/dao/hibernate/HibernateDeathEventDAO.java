@@ -4,14 +4,16 @@
  */
 package org.openxdata.modules.moveit.server.dao.hibernate;
 
+import com.trg.dao.hibernate.GenericDAOImpl;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.openxdata.modules.moveit.server.dao.DeathEventDAO;
 import org.openxdata.modules.moveit.server.model.DeathReport;
-import org.openxdata.server.dao.hibernate.BaseDAOImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,7 +24,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository("deathEventDAO")
-public class HibernateDeathEventDAO extends BaseDAOImpl<DeathReport>  implements DeathEventDAO
+public class HibernateDeathEventDAO extends GenericDAOImpl<DeathReport, Integer>  implements DeathEventDAO
 {
     
     /**
@@ -31,11 +33,13 @@ public class HibernateDeathEventDAO extends BaseDAOImpl<DeathReport>  implements
      * @return 
      */
     
+    @Autowired
     @Override
-    protected Session getSession() {
-            return getSessionFactory().getCurrentSession();
+    public void setSessionFactory(SessionFactory sessionFactory)
+    {
+                super.setSessionFactory(sessionFactory);
     }
-
+   
 
     @Override
     public boolean saveDeathEvent(DeathReport deathEvent) {
@@ -44,10 +48,10 @@ public class HibernateDeathEventDAO extends BaseDAOImpl<DeathReport>  implements
         
         if (deathEvent != null)
         {
-            Session session = getSession();
+            Session session = getSessionFactory().openSession();
             Transaction tx = session.beginTransaction();
             tx.begin();
-            session.save(deathEvent);
+            session.saveOrUpdate(deathEvent);
             tx.commit(); 
             return status = true;
         }

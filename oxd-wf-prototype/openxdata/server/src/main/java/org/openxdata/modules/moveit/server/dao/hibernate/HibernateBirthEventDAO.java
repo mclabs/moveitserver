@@ -62,7 +62,7 @@ public class HibernateBirthEventDAO extends GenericDAOImpl<BirthReport, Integer>
             Session session = getSessionFactory().openSession();
             Transaction tx = session.beginTransaction();
             tx.begin();
-            session.save(birthReport);
+            session.saveOrUpdate(birthReport);
             tx.commit(); 
             return status = true;
         }

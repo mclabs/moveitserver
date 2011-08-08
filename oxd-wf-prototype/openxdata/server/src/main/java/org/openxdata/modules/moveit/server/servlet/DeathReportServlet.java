@@ -16,15 +16,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.openxdata.server.admin.model.FormData;
-import org.openxdata.modules.moveit.handlers.EventXFormHandlers;
 import org.openxdata.modules.moveit.server.exceptions.EventNotSavedException;
 import org.openxdata.modules.moveit.server.exceptions.ParamNotSetException;
 import org.openxdata.modules.moveit.server.model.DeathReport;
 import org.openxdata.modules.moveit.server.service.DeathEventService;
 import org.openxdata.modules.moveit.server.util.Constants;
 import org.openxdata.server.Context;
-import org.openxdata.server.admin.model.User;
 import org.openxdata.server.service.AuthenticationService;
 import org.openxdata.server.service.FormService;
 
@@ -47,7 +44,6 @@ public class DeathReportServlet extends HttpServlet{
     public void init() throws ServletException {
         super.init();
         deathService = (DeathEventService)Context.getBean("deathEventService");
-        deathReport = new DeathReport();
         calendar = Calendar.getInstance();
         authService = (AuthenticationService)Context.getBean("authenticationService");
         formService = (FormService)Context.getBean("formService");
@@ -80,7 +76,7 @@ public class DeathReportServlet extends HttpServlet{
 
 
     //TODO: need to figure out which request will not be handled get vs post
-    void processRequest(HttpServletRequest req,HttpServletResponse resp) throws EventNotSavedException,IOException{
+    public void processRequest(HttpServletRequest req,HttpServletResponse resp) throws EventNotSavedException,IOException{
         resp.setContentType("text/plain");
         PrintWriter out = resp.getWriter();
 
@@ -88,7 +84,8 @@ public class DeathReportServlet extends HttpServlet{
 
         try {
             //changing some github code
-            checkParams(req);
+            deathReport = new DeathReport();
+            checkParams(req, deathReport);
             //eventId = Integer.valueOf(getParam(""))
         } catch (ParamNotSetException ex) {
             out.print("FAIL");
@@ -98,54 +95,26 @@ public class DeathReportServlet extends HttpServlet{
 
         if (deathService!=null) {
             System.out.println("deaTH SERVICE NOT NULL");
+            
         }
         
         
         if (deathReport!=null) {
             System.out.println("deaTH REPORT NOT NULL");
+            System.out.println(deathReport.getDateOfEvent() + " " + deathReport.getEventName() + " " + deathReport.getEventType());
         }
         
         if(!deathService.saveDeathEvent(deathReport)){
             throw new EventNotSavedException(deathReport.getEventId());
         }else{
             out.print("SUCCESS");
-            
-            EventXFormHandlers eventXFormHanlders = new EventXFormHandlers(deathReport);
-            
-            String xml = eventXFormHanlders.returnXFormRepresentation(deathReport);
-            
-            /** 
-             * TODO: to be improved using yawl workflows
-             * 
-             * to save the xml represented as a string data to the database.
-             * 
-             *Setting up of the form object
-             * 
-             * FormData data = new FormData();
-		data.setData(xml);
-		data.setFormDefVersionId(formData.getDef().getId());
-		setFormDataDescription(xml,data);
-		data.setDateCreated(new Date());
-		data.setCreator(userService.getLoggedInUser());
-             * 
-             * 
-             */
-            User user = null;
-            user =authService.authenticate("admin", "admin");
-            
-            FormData data = new FormData();
-            data.setFormDataId(5);
-            data.setData(xml);
-            data.setFormDefVersionId(1);
-            data.setCreator(user);
-            formService.saveFormData(data);
-            
+                     
         }
 
     }
 
     //check params and set the event details
-    private void checkParams(HttpServletRequest req) throws ParamNotSetException {
+    private void checkParams(HttpServletRequest req, DeathReport deathReport) throws ParamNotSetException {
         String tmpParam=null;
         if((tmpParam=req.getParameter(Constants.EVENT_ID))!=null){
 

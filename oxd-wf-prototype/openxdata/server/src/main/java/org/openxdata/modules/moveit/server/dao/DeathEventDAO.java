@@ -4,15 +4,15 @@
  */
 package org.openxdata.modules.moveit.server.dao;
 
+import com.trg.dao.hibernate.GenericDAO;
 import java.util.List;
 import org.openxdata.modules.moveit.server.model.DeathReport;
-import org.openxdata.server.dao.BaseDAO;
 
 /**
  *
  * @author jmaina
  */
-public interface DeathEventDAO extends BaseDAO<DeathReport> 
+public interface DeathEventDAO extends GenericDAO<DeathReport, Integer>
 {
     
     /**
