@@ -15,7 +15,6 @@
     <property name="version.revision.regexp" value='revision=\"(.*)\"' />
 
     <target name="run">
-        <loadfile srcfile="${subversion.entries}" property="repositoryFileInput" />
         <if>
             <contains string="${repositoryFileInput}" substring="&lt;?xml" casesensitive="false" />
             <then>

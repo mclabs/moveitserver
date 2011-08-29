@@ -6,7 +6,6 @@ package org.openxdata.modules.moveit.server.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import org.openxdata.server.admin.model.AbstractEditable;
 
 /**
  *

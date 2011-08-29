@@ -212,6 +212,9 @@ public class FormSmsParser {
 		text = text.trim();
 
 		//Authenticate the user
+                
+                //this returns the string position of the username and password, this is the position
+                //passed to the initFormData object. the substring
 		text = authenticateUser(sender,text);
 
 		//Create an epihandy form data object.

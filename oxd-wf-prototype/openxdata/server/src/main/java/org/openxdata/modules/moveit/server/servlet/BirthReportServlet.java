@@ -16,14 +16,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.openxdata.modules.moveit.handlers.DataHandlerUtil;
 import org.openxdata.modules.moveit.server.exceptions.EventNotSavedException;
 import org.openxdata.modules.moveit.server.exceptions.ParamNotSetException;
 import org.openxdata.modules.moveit.server.model.BirthReport;
 import org.openxdata.server.Context;
 import org.openxdata.modules.moveit.server.service.BirthEventService;
 import org.openxdata.modules.moveit.server.util.Constants;
+import org.openxdata.server.admin.model.FormData;
+import org.openxdata.server.admin.model.exception.OpenXDataValidationException;
+import org.openxdata.server.serializer.KxmlSerializerUtil;
 import org.openxdata.server.service.AuthenticationService;
+import org.openxdata.server.service.FormDownloadService;
 import org.openxdata.server.service.FormService;
+import org.openxdata.server.service.UserService;
 
 /**
  *
@@ -37,6 +43,9 @@ public class BirthReportServlet extends HttpServlet{
     BirthReport birthReport;
     AuthenticationService authService;
     FormService formService;
+    UserService userService;
+    FormDownloadService formDownloadService;
+    KxmlSerializerUtil kxmlSerializer;
 
 
 
@@ -49,6 +58,8 @@ public class BirthReportServlet extends HttpServlet{
         calendar = Calendar.getInstance();
         authService = (AuthenticationService)Context.getBean("authenticationService");
         formService = (FormService)Context.getBean("formService");
+        userService = (UserService) Context.getBean("userService");
+        
     }
 
 
@@ -58,12 +69,17 @@ public class BirthReportServlet extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
         try {
-
             
             processRequest(req, resp);
-
-        } catch (EventNotSavedException ex) {
+        } 
+        catch (EventNotSavedException ex) {
             Logger.getLogger(BirthReportServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch(OpenXDataValidationException oxdErr){
+            Logger.getLogger(BirthReportServlet.class.getName()).log(Level.SEVERE, null, oxdErr);
+        }
+        catch (Exception ex) {
+                Logger.getLogger(BirthReportServlet.class.getName()).log(Level.SEVERE, null, ex);    
         }
     }
 
@@ -72,9 +88,16 @@ public class BirthReportServlet extends HttpServlet{
         //super.doPost(req, resp);
         try {
             birthReport = new BirthReport();
-            processRequest(req, resp);
-        } catch (EventNotSavedException ex) {
+            processRequest(req, resp);        
+        } 
+        catch (EventNotSavedException ex) {
             Logger.getLogger(BirthReportServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch(OpenXDataValidationException oxdErr){
+            Logger.getLogger(BirthReportServlet.class.getName()).log(Level.SEVERE, null, oxdErr);
+        }
+        catch (Exception ex) {
+                Logger.getLogger(BirthReportServlet.class.getName()).log(Level.SEVERE, null, ex);    
         }
     }
 
@@ -89,11 +112,10 @@ public class BirthReportServlet extends HttpServlet{
      * @throws EventNotSavedException
      * @throws IOException 
      */
-    public void processRequest(HttpServletRequest req,HttpServletResponse resp) throws EventNotSavedException,IOException{
+    public void processRequest(HttpServletRequest req,HttpServletResponse resp) throws EventNotSavedException,IOException, OpenXDataValidationException, Exception{
         resp.setContentType("text/plain");
         PrintWriter out = resp.getWriter();
         
-
         try {
             birthReport = new BirthReport();
             //changing some github code
@@ -103,14 +125,25 @@ public class BirthReportServlet extends HttpServlet{
             out.print("FAIL");
             Logger.getLogger(BirthReportServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-
+        
         if(!birthService.saveBirthEvent(birthReport)){
             throw new EventNotSavedException(birthReport.getEventId());
         }else{
             out.print("SUCCESS");
+            DataHandlerUtil dataHandler = new DataHandlerUtil();
+            org.openxdata.model.FormData formData = dataHandler.initFormData(birthReport);
+            String xml = kxmlSerializer.fromFormData2XformModel(formData);
             
+            formData.setValue("child_name", birthReport.getEventName());
+            formData.setValue("date_of_birth", birthReport.getDateOfEvent());
+            
+            FormData frmData = new FormData();
+            frmData.setFormDefVersionId(formData.getDef().getId());
+            frmData.setCreator(userService.getLoggedInUser());
+            frmData.setDateCreated(birthReport.getDateOfReport());
+            frmData.setData(xml);
+            frmData.setDescription(formData.getDataDescription());
+            formService.saveFormData(frmData);
         }
 
     }
@@ -195,11 +228,6 @@ public class BirthReportServlet extends HttpServlet{
         birthReport.setDateTimeStamp(calendar.getTime());
         System.out.println(calendar.getTime());
 
-
-
     }
-
-
-
 
 }

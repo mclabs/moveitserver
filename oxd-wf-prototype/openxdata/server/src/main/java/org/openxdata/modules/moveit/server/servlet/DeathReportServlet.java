@@ -16,14 +16,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.openxdata.modules.moveit.handlers.DataHandlerUtil;
 import org.openxdata.modules.moveit.server.exceptions.EventNotSavedException;
 import org.openxdata.modules.moveit.server.exceptions.ParamNotSetException;
 import org.openxdata.modules.moveit.server.model.DeathReport;
 import org.openxdata.modules.moveit.server.service.DeathEventService;
 import org.openxdata.modules.moveit.server.util.Constants;
 import org.openxdata.server.Context;
+import org.openxdata.server.admin.model.FormData;
+import org.openxdata.server.serializer.KxmlSerializerUtil;
 import org.openxdata.server.service.AuthenticationService;
 import org.openxdata.server.service.FormService;
+import org.openxdata.server.service.UserService;
 
 
 /**
@@ -39,6 +43,8 @@ public class DeathReportServlet extends HttpServlet{
     AuthenticationService authService;
     Calendar calendar;
     FormService formService;
+    UserService userService;
+    
     
     @Override
     public void init() throws ServletException {
@@ -47,6 +53,7 @@ public class DeathReportServlet extends HttpServlet{
         calendar = Calendar.getInstance();
         authService = (AuthenticationService)Context.getBean("authenticationService");
         formService = (FormService)Context.getBean("formService");
+        userService = (UserService) Context.getBean("userService");
     }
 
 
@@ -62,6 +69,9 @@ public class DeathReportServlet extends HttpServlet{
         } catch (EventNotSavedException ex) {
             Logger.getLogger(DeathReportServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        catch (Exception ex) {
+                Logger.getLogger(BirthReportServlet.class.getName()).log(Level.SEVERE, null, ex);    
+        }
     }
 
     @Override
@@ -72,14 +82,18 @@ public class DeathReportServlet extends HttpServlet{
         } catch (EventNotSavedException ex) {
             Logger.getLogger(DeathReportServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+        catch (Exception ex) {
+                Logger.getLogger(BirthReportServlet.class.getName()).log(Level.SEVERE, null, ex);    
+        }
     }
 
 
     //TODO: need to figure out which request will not be handled get vs post
-    public void processRequest(HttpServletRequest req,HttpServletResponse resp) throws EventNotSavedException,IOException{
+    public void processRequest(HttpServletRequest req,HttpServletResponse resp) throws EventNotSavedException,IOException, Exception{
         resp.setContentType("text/plain");
         PrintWriter out = resp.getWriter();
-
+        
+        
 
 
         try {
@@ -108,6 +122,21 @@ public class DeathReportServlet extends HttpServlet{
             throw new EventNotSavedException(deathReport.getEventId());
         }else{
             out.print("SUCCESS");
+            DataHandlerUtil dataHandler = new DataHandlerUtil();
+            org.openxdata.model.FormData formData = dataHandler.initFormData(deathReport);
+            String xml = KxmlSerializerUtil.fromFormData2XformModel(formData);
+            
+            formData.setValue("child_name", deathReport.getEventName());
+            formData.setValue("date_of_birth", deathReport.getDateOfEvent());
+            
+            FormData frmData = new FormData();
+            frmData.setFormDefVersionId(formData.getDef().getId());
+            frmData.setCreator(userService.getLoggedInUser());
+            frmData.setDateCreated(deathReport.getDateOfReport());
+            frmData.setData(xml);
+            frmData.setDescription(formData.getDataDescription());
+            formService.saveFormData(frmData);
+            
                      
         }
 

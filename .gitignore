@@ -13,3 +13,12 @@
 
 
 
+/oxd-wf-prototype/openxdata/admin/target/
+/oxd-wf-prototype/openxdata/immunizations/target/
+/oxd-wf-prototype/openxdata/model/target/
+/oxd-wf-prototype/openxdata/rpc-interface/target/
+/oxd-wf-prototype/openxdata/server/target/
+/oxd-wf-prototype/openxdata/openxdata-wf-mobile-model/target/
+/oxd-wf-prototype/openxdata/yawl-engine-with-parsers-lib/target/
+/oxd-wf-prototype/openxdata/workflow-server-lib/target/
+/oxd-wf-prototype/openxdata/SpecStudyMapperWidget/target/
