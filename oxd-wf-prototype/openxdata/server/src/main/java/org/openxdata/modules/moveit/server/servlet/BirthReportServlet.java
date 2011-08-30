@@ -132,10 +132,9 @@ public class BirthReportServlet extends HttpServlet{
             out.print("SUCCESS");
             DataHandlerUtil dataHandler = new DataHandlerUtil();
             org.openxdata.model.FormData formData = dataHandler.initFormData(birthReport);
-            String xml = kxmlSerializer.fromFormData2XformModel(formData);
-            
             formData.setValue("child_name", birthReport.getEventName());
             formData.setValue("date_of_birth", birthReport.getDateOfEvent());
+            String xml = kxmlSerializer.fromFormData2XformModel(formData);
             
             
             FormData frmData = new FormData();

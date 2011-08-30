@@ -124,10 +124,10 @@ public class DeathReportServlet extends HttpServlet{
             out.print("SUCCESS");
             DataHandlerUtil dataHandler = new DataHandlerUtil();
             org.openxdata.model.FormData formData = dataHandler.initFormData(deathReport);
-            String xml = KxmlSerializerUtil.fromFormData2XformModel(formData);
-            
             formData.setValue("name", deathReport.getEventName());
             formData.setValue("dateofdeath", deathReport.getDateOfEvent());
+            String xml = KxmlSerializerUtil.fromFormData2XformModel(formData);
+            
             
             FormData frmData = new FormData();
             frmData.setFormDefVersionId(formData.getDef().getId());
