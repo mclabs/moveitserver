@@ -1056,14 +1056,23 @@
             <column name="event_identifier" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="event_type" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
             <column name="event_name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="contact_phone" type="VARCHAR(255)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="sex" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="event_place" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notification_number" type="INT">
+                <constraints nullable="true"/>
             </column>
           
          </createTable>
@@ -1097,36 +1106,31 @@
             <column name="event_identifier" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="event_type" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
             <column name="event_name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="contact_phone" type="VARCHAR(255)">
                 <constraints nullable="false"/>
+            </column> 
+            <column name="date_of_birth" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sex" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>          
+            <column name="location" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>           
+            <column name="event_place" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="notification_number" type="INT">
+                <constraints nullable="true"/>
             </column>
             
          </createTable>
                
     </changeSet>
     
-    <changeSet id="3-create-location-event-table" author="jmaina">
-        
-    <createTable tableName="location">
-            <column name="location_id" autoIncrement="true"   type="INT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            
-            <column name="location_text_name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="location_coded_name" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            
-    </createTable>
-    
-    </changeSet>
 
 </databaseChangeLog>
