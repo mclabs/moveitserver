@@ -17,8 +17,11 @@
     <property column="date_of_dateOXDtimestamp" name="dateTimeStamp" not-null="true" type="timestamp"/>
     <property column="reporter_id" name="reporterId" not-null="true" type="int"/>
     <property column="event_identifier" name="eventId" not-null="true" type="java.lang.String"/>
-    <property column="event_type" name="eventType" not-null="true" type="java.lang.String"/>
     <property column="event_name" name="eventName" not-null="true" type="java.lang.String"/>
-    <property column="contact_phone" name="contactPhone" not-null="true" type="java.lang.String"/>
+    <property column="contact_phone" name="contactPhone" not-null="true" type="java.lang.String"/>   
+    <property column="sex" name="sex" not-null="true" type="java.lang.String"/>
+    <property column="location" name="location" not-null="true" type="java.lang.String"/>
+    <property column="event_place" name="place_of_event" not-null="true" type="java.lang.String"/>
+    <property column="notification_number" name="notificationNumber" not-null="true" type="int"/>
   </class>
 </hibernate-mapping>

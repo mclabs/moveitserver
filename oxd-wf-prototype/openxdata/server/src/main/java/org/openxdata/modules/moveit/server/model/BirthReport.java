@@ -14,7 +14,23 @@ import java.util.Date;
  * to be altered so that BirthReport becomes of type Event.
  * Event  becomes the superclass
  * 
- */
+ * 
+ * 
+ *  /**
+     * 
+     *  Reporter (identified by telephone no)  =>  reporter_id
+        Event ID => event_id
+        Date event reported => event_report_date
+        Death of Birth => dob
+        Contact => contact_phone
+        Sex =>sex
+        Location code =>  loc
+        Full Name => event_name
+        Place of event (Hospital/Clinic or Home) =>  place
+        Notification no. ( Incase Place is hospital and there is D1 filled) => nid
+     * 
+     */
+
 public class BirthReport implements Serializable
 {
 
@@ -35,14 +51,22 @@ public class BirthReport implements Serializable
     
     /**this represents the unique id of the particular event */
     private String eventId;
-    
-    /** this represents the event whether its a birth */
-    private String eventType;
-    
+     
     /** this represents identification of the person concerned with the event */
     private String eventName;
     
     private String contactPhone;
+    
+    private String sex;
+    
+    /** location code whether its a location or a sublocation */
+    private String location;
+    
+    /** Place of event (Hospital/Clinic or Home) =>  place */
+    private String place_of_event;
+    
+    /** Notification no. ( Incase Place is hospital and there is D1 filled) => nid */
+    private int notificationNumber;
     
    
     
@@ -97,16 +121,6 @@ public class BirthReport implements Serializable
     public String getEventName() {
         return eventName;
     }
-  
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
-    
-    public String getEventType() {
-        return eventType;
-    }
-
     
     public void setReporterId(int reporterId) {
         this.reporterId = reporterId;
@@ -126,6 +140,38 @@ public class BirthReport implements Serializable
 
     public String getContactPhone() {
         return contactPhone;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getNotificationNumber() {
+        return notificationNumber;
+    }
+
+    public String getPlace_of_event() {
+        return place_of_event;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setNotificationNumber(int notificationNumber) {
+        this.notificationNumber = notificationNumber;
+    }
+
+    public void setPlace_of_event(String place_of_event) {
+        this.place_of_event = place_of_event;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
     
     

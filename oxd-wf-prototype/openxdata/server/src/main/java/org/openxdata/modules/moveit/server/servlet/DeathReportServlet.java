@@ -50,7 +50,6 @@ public class DeathReportServlet extends HttpServlet{
     public void init() throws ServletException {
         super.init();
         deathService = (DeathEventService)Context.getBean("deathEventService");
-        calendar = Calendar.getInstance();
         authService = (AuthenticationService)Context.getBean("authenticationService");
         formService = (FormService)Context.getBean("formService");
         userService = (UserService) Context.getBean("userService");
@@ -111,11 +110,10 @@ public class DeathReportServlet extends HttpServlet{
             System.out.println("deaTH SERVICE NOT NULL");
             
         }
-        
-        
+               
         if (deathReport!=null) {
             System.out.println("deaTH REPORT NOT NULL");
-            System.out.println(deathReport.getDateOfEvent() + " " + deathReport.getEventName() + " " + deathReport.getEventType());
+            System.out.println(deathReport.getDateOfEvent() + " " + deathReport.getEventName());
         }
         
         if(!deathService.saveDeathEvent(deathReport)){
@@ -136,15 +134,18 @@ public class DeathReportServlet extends HttpServlet{
             frmData.setData(xml);
             frmData.setDescription(formData.getDataDescription());
             formService.saveFormData(frmData);
-            
-                     
+                                
         }
 
     }
 
     //check params and set the event details
     private void checkParams(HttpServletRequest req, DeathReport deathReport) throws ParamNotSetException {
+        
         String tmpParam=null;
+        
+        calendar = Calendar.getInstance();
+        
         if((tmpParam=req.getParameter(Constants.EVENT_ID))!=null){
 
             deathReport.setEventId(tmpParam);
@@ -163,16 +164,6 @@ public class DeathReportServlet extends HttpServlet{
         }else{
             throw new ParamNotSetException(Constants.EVENT_NAME);
         }
-
-        if((tmpParam=req.getParameter(Constants.EVENT_TYPE))!=null){
-            deathReport.setEventType(tmpParam);
-
-            //reset tmpParam variable for next check
-            tmpParam = null;
-        }else{
-            throw new ParamNotSetException(Constants.EVENT_TYPE);
-        }
-
 
         if((tmpParam=req.getParameter(Constants.EVENT_DATE))!=null){
             //TODO: change to chack date formart of incoming string
@@ -211,8 +202,51 @@ public class DeathReportServlet extends HttpServlet{
         }else{
             throw new ParamNotSetException(Constants.EVENT_CONTACT);
         }
-
-
+        
+        if ((tmpParam=req.getParameter(Constants.DOB)) != null){
+            
+            long timestamp = Long.valueOf(tmpParam).longValue();
+            deathReport.setDateOfBirth(new Date(timestamp));
+            //reset tmpParam variable for next check
+            tmpParam =  null;           
+        }else{
+            throw new ParamNotSetException(Constants.DOB);
+        }
+        
+        
+        if ((tmpParam=req.getParameter(Constants.SEX)) != null){
+            deathReport.setSex(tmpParam);
+            //reset tmpParam variable for next check
+            tmpParam =  null;           
+        }else{
+            throw new ParamNotSetException(Constants.SEX);
+        }
+        
+        if ((tmpParam=req.getParameter(Constants.LOCATION)) != null){
+            deathReport.setLocation(tmpParam);
+            //reset tmpParam variable for next check
+            tmpParam =  null;           
+        }else{
+            throw new ParamNotSetException(Constants.LOCATION);
+        }
+        
+        if ((tmpParam=req.getParameter(Constants.EVENT_PLACE)) != null){
+            deathReport.setPlace_of_event(tmpParam);
+            //reset tmpParam variable for next check
+            tmpParam = null;
+        }else{
+            throw new ParamNotSetException(Constants.EVENT_PLACE);
+        }
+        
+        if ((tmpParam=req.getParameter(Constants.NOTIFICATION_NO)) != null){
+            deathReport.setNotificationNumber(Integer.valueOf(tmpParam));
+            //reset tmpParam variable for next check
+            tmpParam =  null;           
+        }else{
+            throw new ParamNotSetException(Constants.NOTIFICATION_NO);
+        }
+        
+        
         //set the date captured in oxd
         deathReport.setDateTimeStamp(calendar.getTime());
 

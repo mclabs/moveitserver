@@ -55,7 +55,6 @@ public class BirthReportServlet extends HttpServlet{
     public void init() throws ServletException {
         super.init();
         birthService = (BirthEventService)Context.getBean("birthEventService");
-        calendar = Calendar.getInstance();
         authService = (AuthenticationService)Context.getBean("authenticationService");
         formService = (FormService)Context.getBean("formService");
         userService = (UserService) Context.getBean("userService");
@@ -150,7 +149,11 @@ public class BirthReportServlet extends HttpServlet{
 
     //check params and set the event details
     private void checkParams(HttpServletRequest req, BirthReport birthReport) throws ParamNotSetException {
+        
         String tmpParam=null;
+        
+        calendar = Calendar.getInstance();
+        
         if((tmpParam=req.getParameter(Constants.EVENT_ID))!=null){
 
             birthReport.setEventId(tmpParam);
@@ -171,17 +174,6 @@ public class BirthReportServlet extends HttpServlet{
         }else{
             throw new ParamNotSetException(Constants.EVENT_NAME);
         }
-
-        if((tmpParam=req.getParameter(Constants.EVENT_TYPE))!=null){
-            birthReport.setEventType(tmpParam);
-            System.out.println(tmpParam);
-
-            //reset tmpParam variable for next check
-            tmpParam = null;
-        }else{
-            throw new ParamNotSetException(Constants.EVENT_TYPE);
-        }
-
 
         if((tmpParam=req.getParameter(Constants.EVENT_DATE))!=null){
             //TODO: change to chack date formart of incoming string
@@ -221,6 +213,38 @@ public class BirthReportServlet extends HttpServlet{
             tmpParam = null;
         }else{
             throw new ParamNotSetException(Constants.EVENT_CONTACT);
+        }
+        
+        if ((tmpParam=req.getParameter(Constants.SEX)) != null){
+            birthReport.setSex(tmpParam);
+            //reset tmpParam variable for next check
+            tmpParam =  null;           
+        }else{
+            throw new ParamNotSetException(Constants.SEX);
+        }
+        
+        if ((tmpParam=req.getParameter(Constants.LOCATION)) != null){
+            birthReport.setLocation(tmpParam);
+            //reset tmpParam variable for next check
+            tmpParam =  null;           
+        }else{
+            throw new ParamNotSetException(Constants.LOCATION);
+        }
+        
+        if ((tmpParam=req.getParameter(Constants.EVENT_PLACE)) != null){
+            birthReport.setPlace_of_event(tmpParam);
+            //reset tmpParam variable for next check
+            tmpParam = null;
+        }else{
+            throw new ParamNotSetException(Constants.EVENT_PLACE);
+        }
+        
+        if ((tmpParam=req.getParameter(Constants.NOTIFICATION_NO)) != null){
+            birthReport.setNotificationNumber(Integer.valueOf(tmpParam));
+            //reset tmpParam variable for next check
+            tmpParam =  null;           
+        }else{
+            throw new ParamNotSetException(Constants.NOTIFICATION_NO);
         }
 
 

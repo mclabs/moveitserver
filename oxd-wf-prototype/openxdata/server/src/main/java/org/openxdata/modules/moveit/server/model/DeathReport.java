@@ -14,7 +14,23 @@ import org.openxdata.server.admin.model.AbstractEditable;
  * to be altered so that DeathhReport becomes of type Event.
  * Event becomes the superclass. 
  * 
- */
+ *  /**
+     * 
+     *  Reporter (identified by telephone no)  =>  reporter_id
+        Event ID => event_id
+        Date event reported => event_report_date
+        Death of Birth => dob
+        Contact => contact_phone
+        Sex =>sex
+        Location code =>  loc
+        Full Name => event_name
+        Place of event (Hospital/Clinic or Home) =>  place
+        Notification no. ( Incase Place is hospital and there is D1 filled) => nid
+     * 
+     */
+
+
+
 public class DeathReport extends AbstractEditable {
     
     /** this is the id birthReport entry */ 
@@ -34,15 +50,25 @@ public class DeathReport extends AbstractEditable {
     
     /**this represents the unique id of the particular event */
     private String eventId;
-    
-    /** this represents the event whether its a birth or death*/
-    private String eventType;
-    
+     
     /** this represents identification of the person concerned with the event */
     private String eventName;
     
     /** this represents the contact number for the bereaved */
     private String contactPhone;
+    
+    private Date dateOfBirth;
+    
+    private String sex;
+    
+    /** location code whether its a location or a sublocation */
+    private String location;
+    
+    /** Place of event (Hospital/Clinic or Home) =>  place */
+    private String place_of_event;
+    
+    /** Notification no. ( Incase Place is hospital and there is D1 filled) => nid */
+    private int notificationNumber;
     
    
     
@@ -64,8 +90,6 @@ public class DeathReport extends AbstractEditable {
         return dateOfEvent;
     }
     
-    
-
     public void setDateOfReport(Date dateOfReport) {
         this.dateOfReport = dateOfReport;
     }
@@ -85,7 +109,6 @@ public class DeathReport extends AbstractEditable {
     }
     
     
-
     public void setEventId(String eventId) {
         this.eventId = eventId;
     }
@@ -95,23 +118,12 @@ public class DeathReport extends AbstractEditable {
     }
     
     
-
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
 
     public String getEventName() {
         return eventName;
-    }
-    
-    
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
-
-    public String getEventType() {
-        return eventType;
     }
     
 
@@ -134,8 +146,58 @@ public class DeathReport extends AbstractEditable {
     public String getContactPhone() {
         return contactPhone;
     }
+
+    public String getLocation() {
+        return location;
+    }
     
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public int getNotificationNumber() {
+        return notificationNumber;
+    }
+     
+    public void setNotificationNumber(int notificationNumber) {
+        this.notificationNumber = notificationNumber;
+    }
+
+    public String getPlace_of_event() {
+        return place_of_event;
+    }
+    
+    public void setPlace_of_event(String place_of_event) {
+        this.place_of_event = place_of_event;
+    }
+
+
+    public String getSex() {
+        return sex;
+    }
+    
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
    
+    
+    
+
+   
+
+    
+    
+    
+    
     
      
 }
