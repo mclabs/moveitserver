@@ -5,19 +5,22 @@
 package org.openxdata.modules.moveit.server.servlet;
 
 import com.google.inject.Singleton;
-import java.io.DataOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.openxdata.server.Context;
-import org.openxdata.server.admin.model.FormData;
-import org.openxdata.server.admin.model.FormDef;
-import org.openxdata.server.admin.model.FormDefVersion;
-import org.openxdata.server.service.FormService;
+import org.openxdata.modules.workflows.server.context.WFContext;
+import org.openxdata.modules.workflows.server.handlers.AccessDeniedHandler;
+import org.openxdata.modules.workflows.server.handlers.ErrorWhileProcessHandler;
+import org.openxdata.modules.workflows.server.handlers.ProcessorCreator;
+import org.openxdata.modules.workflows.server.handlers.RequestHandler;
+import org.openxdata.server.admin.model.User;
+import org.openxdata.server.service.AuthenticationService;
+
+
 
 /**
  *
@@ -26,89 +29,72 @@ import org.openxdata.server.service.FormService;
  * 
  * The purpose of this servlet is to send the FormData
  * object with all the prefilled data to the mobile client. 
- * 
- * When the mobile client requests for this it is given this 
- * information
+ *
  * 
  * 
- * TODO clean up code and make it well encapsulated.
+ * Get the data as an input stream and handle the data from there by extracting the 
+ * information from the stream. Finding out how to extract data from the stream
+ * 
  */
 
 @Singleton
 public class MobileEventRequestServlet extends HttpServlet
 {
     
-    FormService formService;
-    
-    @Override
-    public void init() throws ServletException
-    {
-        formService = (FormService)Context.getBean("formService");
-    }
-    
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
-        
-        doPost(req, resp);  
-    }
-       
+        private class RequestParams
+        {
+                private User user;
+                private String type;
+        }
+        private final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(this.getClass());
+        private ProcessorCreator processorCreator;
+        private AuthenticationService authSrv;
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-               
-        List<FormDef> listedData = formService.getFormsForCurrentUser();
-        
-        /**
-         * the tricky part is how to link this with the mobile service
-         * so that they download the right forms to the right user in 
-         * this case being the chief.
-         */
-        
-        DataOutputStream out = new DataOutputStream(resp.getOutputStream());
-        
-        //p.print(p); /** the object to be sent being formdata */
-        //p.close();    
-        
-   
-        for (FormDef formDef : listedData){            
-            if (formDef != null )
-            {
-                  /**
-                     * this is for deaths
-                     */
-                    List<FormDefVersion> versions = formDef. getVersions();
-                    FormDefVersion vrs = versions.get(0);
-                    vrs.getId();
-                    
-                   List <FormData> forms= formService.getFormData(vrs.getId());
-                   for (FormData formData: forms){
-                       
-                       if (formData.getFormDataId() == 5)
-                       {
-                            out.write(formData.getFormDataId());
-                            out.writeUTF(formData.getData()); 
-                            out.write(formData.getFormDefVersionId());
-                            //out.writeBytes(formData.getCreator()); /** mechanism to write an object to an output stream */
-                       }
-                       
-                       else if (formData.getFormDataId() == 7 )
-                       {                           
-                           out.write(formData.getFormDataId());
-                           out.writeUTF(formData.getData()); 
-                           out.write(formData.getFormDefVersionId());
-                           //out.writeBytes(formData.getCreator()); /** mechanism to write an object to an output stream */
-                       }
-                   }
-            }
-       
-        }           
-                      
-        out.flush();
-        
-   
-    }  
-    
+        @Override
+        public void init() throws ServletException
+        {
+                super.init();
+                processorCreator = WFContext.getProcessorCreator();
+                authSrv = (AuthenticationService) org.openxdata.server.Context.getBean("authenticationService");
+
+        }
+
+        @Override
+        protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+        {
+                try {
+                        RequestParams params = readType(req, resp);
+                        RequestHandler reqHandler = processorCreator.buildRequestHandler(params.type);
+                        ByteArrayOutputStream tempOS = new ByteArrayOutputStream();
+                        reqHandler.handleRequest(params.user, req.getInputStream(), tempOS);
+                        resp.getOutputStream().write(tempOS.toByteArray());
+                        resp.getOutputStream().flush();
+                } catch (Exception ex) {
+                        log.error("Problem while processing request from mobile: ",ex);
+                        new ErrorWhileProcessHandler(ex).handleRequest(null, null, resp.getOutputStream());
+                }
+        }
+
+        private RequestParams readType(HttpServletRequest req, HttpServletResponse resp) throws IOException
+        {
+                RequestParams params = new RequestParams();
+                DataInputStream dis = new DataInputStream(req.getInputStream());
+                User user = authenticatedBinaryStream(dis);
+                if (user != null) {
+                        params.user = user;
+                        params.type = dis.readUTF();
+                } else {
+                        params.type = AccessDeniedHandler.class.getName();
+                }
+                return params;
+        }
+
+        private User authenticatedBinaryStream(DataInputStream dis) throws IOException
+        {
+                String userName = dis.readUTF();
+                String password = dis.readUTF();
+                User user = authSrv.authenticate(userName, password);
+                return user;
+        }
     
 }

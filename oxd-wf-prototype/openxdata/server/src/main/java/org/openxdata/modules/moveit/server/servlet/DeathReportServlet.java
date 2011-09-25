@@ -120,7 +120,7 @@ public class DeathReportServlet extends HttpServlet{
             throw new EventNotSavedException(deathReport.getEventId());
         }else{
             out.print("SUCCESS");
-            DataHandlerUtil dataHandler = new DataHandlerUtil();
+            DataHandlerUtil dataHandler = new DataHandlerUtil(deathReport.getReporterId());
             org.openxdata.model.FormData formData = dataHandler.initFormData(deathReport);
             formData.setValue("name", deathReport.getEventName());
             formData.setValue("dateofdeath", deathReport.getDateOfEvent());
@@ -129,7 +129,7 @@ public class DeathReportServlet extends HttpServlet{
             
             FormData frmData = new FormData();
             frmData.setFormDefVersionId(formData.getDef().getId());
-            frmData.setCreator(userService.getLoggedInUser());
+            frmData.setCreator(dataHandler.getUser());
             frmData.setDateCreated(deathReport.getDateOfReport());
             frmData.setData(xml);
             frmData.setDescription(formData.getDataDescription());

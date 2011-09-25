@@ -129,7 +129,15 @@ public class BirthReportServlet extends HttpServlet{
             throw new EventNotSavedException(birthReport.getEventId());
         }else{
             out.print("SUCCESS");
-            DataHandlerUtil dataHandler = new DataHandlerUtil();
+            
+            /**
+             * 
+             * TODO 
+             * It would provide better abstraction if this code goes to one class 
+             * 
+             */
+            
+            DataHandlerUtil dataHandler = new DataHandlerUtil(birthReport.getReporterId());
             org.openxdata.model.FormData formData = dataHandler.initFormData(birthReport);
             formData.setValue("child_name", birthReport.getEventName());
             formData.setValue("date_of_birth", birthReport.getDateOfEvent());
@@ -138,7 +146,7 @@ public class BirthReportServlet extends HttpServlet{
             
             FormData frmData = new FormData();
             frmData.setFormDefVersionId(formData.getDef().getId());
-            frmData.setCreator(userService.getLoggedInUser());
+            frmData.setCreator(dataHandler.getUser());
             frmData.setDateCreated(birthReport.getDateOfReport());
             frmData.setData(xml);
             frmData.setDescription(formData.getDataDescription());

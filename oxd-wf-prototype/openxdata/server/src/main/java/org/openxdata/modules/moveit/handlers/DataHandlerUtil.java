@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.openxdata.model.FormDef;
 import org.openxdata.modules.moveit.server.model.BirthReport;
 import org.openxdata.modules.moveit.server.model.DeathReport;
+import org.openxdata.modules.moveit.server.service.UserEventReporterService;
 import org.openxdata.server.Context;
 import org.openxdata.server.admin.model.User;
 import org.openxdata.server.admin.model.exception.OpenXDataValidationException;
@@ -23,6 +24,9 @@ import org.openxdata.server.service.AuthenticationService;
 import org.openxdata.server.service.FormDownloadService;
 
 /**
+ * 
+ * Assumptions that have to be determined. That the mapping between users and reporters 
+ * has already been predefined. The list is readily available. 
  *
  * @author jmaina
  */
@@ -44,26 +48,39 @@ public class DataHandlerUtil {
         
 	private AuthenticationService authenticationService = 
                 (AuthenticationService)Context.getBean("authenticationService");
-         
+        
+        private UserEventReporterService userEventReportService =
+                (UserEventReporterService) Context.getBean("userReporterService");
+        
+        private User user;
+
+    
+        public DataHandlerUtil(){}
                
-        public DataHandlerUtil() 
+        public DataHandlerUtil(int reporterId) 
         {
-            init();
+            init(reporterId);
         }
          
-        private void init() {
+        private void init(int reporterId) {
                 log = Logger.getLogger(DataHandlerUtil.class.toString());
 		formDefs = new HashMap<String,FormDef>();
 		formXml = new HashMap<String,String>();
-
-		//Prefetch a list of all form definitions from the server such that we do
-		//not have to do it at each sms received, hence making a performance boost in
-		//sms processing. The trade of is that if someone creates a new form after
-		//the sms server has already been started, they have to restart it in order
-		//to pick up the new form definitions.
-                String username = "admin";
-                String password = "admin";
-                User user = authenticationService.authenticate(username, password);
+                
+                //work of retrieving forms according to specific user to be done here.
+                //setting of the user to be done here as well
+                
+                //the setting of reporterid has to be done from the servlet as the data is
+                //coming from the sms data
+                
+                org.openxdata.server.admin.model.User user =
+                           userEventReportService.getUserByReporter(reporterId);
+                
+                setUser(user);
+		
+                String username = user.getName();
+                String password = user.getPassword();
+                user = authenticationService.authenticate(username, password);
                 System.out.println(user.getName());
 		
                 //TODO Need to use proper locale
@@ -140,5 +157,15 @@ public class DataHandlerUtil {
 
 		return null;
 	}
+        
+        public User getUser() {
+            return user;
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
+        
+        
         
 }
