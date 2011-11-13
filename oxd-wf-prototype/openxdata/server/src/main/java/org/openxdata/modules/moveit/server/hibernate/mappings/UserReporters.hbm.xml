@@ -16,8 +16,6 @@
     </id>
     <many-to-one class="org.openxdata.server.admin.model.User" column="user_id" name="user"/>
     <property column="reporterid" name="reporterId" not-null="true" type="int"/>
-    
-    
-    
+    <property column="chwName" name="chwName" not-null="true" type="int"/>    
   </class>
 </hibernate-mapping>

@@ -63,6 +63,7 @@ public class DataHandlerUtil {
         }
          
         private void init(int reporterId) {
+            
                 log = Logger.getLogger(DataHandlerUtil.class.toString());
 		formDefs = new HashMap<String,FormDef>();
 		formXml = new HashMap<String,String>();
@@ -75,13 +76,12 @@ public class DataHandlerUtil {
                 
                 org.openxdata.server.admin.model.User user =
                            userEventReportService.getUserByReporter(reporterId);
-                
-                setUser(user);
-		
-                String username = user.getName();
-                String password = user.getPassword();
+                	
+                String username = "admin";
+                String password = "admin";
                 user = authenticationService.authenticate(username, password);
                 System.out.println(user.getName());
+                setUser(user);
 		
                 //TODO Need to use proper locale
 		List<String> forms = formDownloadService.getFormsDefaultVersionXml(user,"en");

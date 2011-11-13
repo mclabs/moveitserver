@@ -83,6 +83,7 @@ public class MobileEventRequestServlet extends HttpServlet
                 if (user != null) {
                         params.user = user;
                         params.type = dis.readUTF();
+                        System.out.println("edownload parameters authenticated .... " + user.getName());
                 } else {
                         params.type = AccessDeniedHandler.class.getName();
                 }

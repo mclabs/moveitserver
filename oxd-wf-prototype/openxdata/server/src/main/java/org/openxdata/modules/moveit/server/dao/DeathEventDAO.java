@@ -43,7 +43,7 @@ public interface DeathEventDAO extends GenericDAO<DeathReport, Integer>
      * Returns a list of saved Death Events
      * @return 
      */
-    public List<DeathReport>  getDeathEvents();
+    public List<DeathReport>  getAllDeathEvents();
     
     
   

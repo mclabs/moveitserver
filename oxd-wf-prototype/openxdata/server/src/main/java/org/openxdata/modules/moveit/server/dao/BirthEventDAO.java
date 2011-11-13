@@ -49,5 +49,6 @@ public interface BirthEventDAO extends GenericDAO<BirthReport, Integer>{
      
      
      public List<BirthReport> getDeathEventsByReporter(int reporterId);
-    
+     
+     
 }

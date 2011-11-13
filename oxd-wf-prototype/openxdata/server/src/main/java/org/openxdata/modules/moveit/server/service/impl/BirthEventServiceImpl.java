@@ -5,9 +5,13 @@
 package org.openxdata.modules.moveit.server.service.impl;
 
 import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.openxdata.modules.moveit.server.dao.BirthEventDAO;
 import org.openxdata.modules.moveit.server.model.BirthReport;
 import org.openxdata.modules.moveit.server.service.BirthEventService;
+import org.openxdata.server.admin.model.Editable;
+import org.openxdata.server.dao.hibernate.BaseDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,48 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service("birthEventService")
-public class BirthEventServiceImpl extends EventService implements BirthEventService
+public class BirthEventServiceImpl extends BaseDAOImpl<Editable> implements BirthEventService
 {
     
     @Autowired
     private BirthEventDAO birthEventDAO;
 
-     @Override
-    public boolean isEventSaved(Object obj) {
-        
-        boolean isSaved = false;
-        
-        if (obj instanceof BirthReport)
-        {
-            BirthReport birthReport = (BirthReport) obj;
-            
-            if (birthEventDAO.getBirthEvent(birthReport) != null){
-                isSaved = true;
-            }
-            else {
-                isSaved = false; }
-        }
-        
-        return isSaved;       
-    }
-
-    @Override
-    public List getAllEvents() {
-        
-        return birthEventDAO.getBirthEvents();
-    }
-
-    @Override
-    public List findEventsByReporter(int reporterId) {
-        
-        return birthEventDAO.getDeathEventsByReporter(reporterId);
-    }
-
-    @Override
-    public BirthReport getBirthEvent(BirthReport birthReport) {
-        
-        return birthEventDAO.getBirthEvent(birthReport);
-    }
 
     @Override
     public boolean saveBirthEvent(BirthReport birthReport) {
@@ -73,5 +41,44 @@ public class BirthEventServiceImpl extends EventService implements BirthEventSer
         
         return birthEventDAO.deleteBirthEvent(birthReport);
     }
+
+
+    @Override
+    public List<BirthReport> getAllBirthEvents() {
+        
+        return birthEventDAO.getBirthEvents();
+     
+    }
+
+    
+    @Override
+    public BirthReport getBirthEventById(int birthReport) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Object> getAllCompletedEvents() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<Object> getIncompletedEvents() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public BirthReport getBirthEventByEventId(String eventId) {
+        
+        BirthReport birthReport;
+        Criteria criteria = getSession().
+                    createCriteria(BirthReport.class).
+                    add(Restrictions.eq("eventId", eventId));
+        
+        birthReport = (BirthReport) criteria.list().get(0);
+        
+        return birthReport;
+    }
+    
+    
 
 }

@@ -120,6 +120,8 @@ public class DeathReportServlet extends HttpServlet{
             throw new EventNotSavedException(deathReport.getEventId());
         }else{
             out.print("SUCCESS");
+            
+            
             DataHandlerUtil dataHandler = new DataHandlerUtil(deathReport.getReporterId());
             org.openxdata.model.FormData formData = dataHandler.initFormData(deathReport);
             formData.setValue("name", deathReport.getEventName());
@@ -249,6 +251,7 @@ public class DeathReportServlet extends HttpServlet{
         
         //set the date captured in oxd
         deathReport.setDateTimeStamp(calendar.getTime());
+        deathReport.setStatus("Incomplete");
 
 
 

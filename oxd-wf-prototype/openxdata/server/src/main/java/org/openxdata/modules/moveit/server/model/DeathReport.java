@@ -70,6 +70,7 @@ public class DeathReport extends AbstractEditable {
     /** Notification no. ( Incase Place is hospital and there is D1 filled) => nid */
     private int notificationNumber;
     
+    public String status;    
    
     
     
@@ -187,6 +188,16 @@ public class DeathReport extends AbstractEditable {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    
 
    
     

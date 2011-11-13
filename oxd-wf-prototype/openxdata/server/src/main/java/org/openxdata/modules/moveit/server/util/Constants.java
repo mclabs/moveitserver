@@ -25,21 +25,16 @@ public class Constants
     public final static String SEX = "sex";
     public final static String DOB = "dob";
     
+    public final static String MANAGER = "manager";
+    public final static String REPPORTER = "reporter";
+    public final static String CHWNAME = "chwname";
     
     /**
-     * 
-     *  Reporter (identified by telephone no)  =>  reporter_id
-        Event ID => event_id
-        Date event reported => event_report_date
-        Death of Birth => dob => event_date
-        Contact => contact_phone
-        Sex =>sex
-        Location code =>  loc
-        Full Name => event_name
-        Place of event (Hospital/Clinic or Home) =>  place
-        Notification no. ( Incase Place is hospital and there is D1 filled) => nid
-     * 
+     * These are constants for status query service
      */
-
+    
+    public final static String COMPLETE = "C";
+    public final static String INVALIE = "IN";
+    public final static String NOT_STARTED = "NS";
 
 }

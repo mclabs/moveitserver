@@ -7,6 +7,7 @@ package org.openxdata.modules.moveit.handlers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -22,12 +23,17 @@ import org.openxdata.workflow.mobile.model.MQuestionMap;
 import org.openxdata.workflow.mobile.model.MWorkItem;
 import org.yawlfoundation.yawl.util.JDOMUtil;
 
-import org.openxdata.model.FormDef;
+import org.openxdata.modules.moveit.server.model.BirthReport;
+import org.openxdata.modules.moveit.server.model.DeathReport;
+import org.openxdata.modules.moveit.server.service.BirthEventService;
+import org.openxdata.modules.moveit.server.service.DeathEventService;
 import org.openxdata.modules.moveit.server.service.UserEventReporterService;
 import org.openxdata.server.Context;
+import org.openxdata.server.admin.model.FormDef;
 import org.openxdata.server.admin.model.User;
 import org.openxdata.server.service.AuthenticationService;
 import org.openxdata.server.service.FormDownloadService;
+import org.openxdata.server.service.FormService;
 
 /**
  *
@@ -72,6 +78,21 @@ public class WIRDownloadHandler implements RequestHandler {
     private FormDownloadService formDownloadService;
     private AuthenticationService authenticationService;
     private UserEventReporterService userEventReporterService;
+    private BirthEventService birthEventService;
+    private DeathEventService deathEventService;
+    FormService formservice;
+    
+    String moveitStudy;
+    String deathForm;
+    String birthForm;
+    
+    StudyDef moveitDef;
+    FormDef birthDef;
+    FormDef deathDef;
+    
+    int birthFID;
+    int deathFID;
+    List<FormDef> allEvents;
     
     /**
      * 
@@ -80,6 +101,12 @@ public class WIRDownloadHandler implements RequestHandler {
      * 
      * finding a way to pass the user to this handler so that filtering can be done 
      * according to this specific user
+     * 
+     * Use the birth/death service to recieve the objects from the database.
+     * '
+     * Prefilling values as they are being sent to workflow items
+     * 
+     * 
      * 
      */
 
@@ -95,45 +122,107 @@ public class WIRDownloadHandler implements RequestHandler {
                 (AuthenticationService)Context.getBean("authenticationService");
         userEventReporterService =
                 (UserEventReporterService) Context.getBean("userReporterService");
+        birthEventService =
+                (BirthEventService) Context.getBean("birthEventService");
+        deathEventService =
+                (DeathEventService) Context.getBean("deathEventService");
+        formservice =
+                (FormService) Context.getBean("formService");
         
         
-        setMoveit_STudyAndForm();
+        
     }
 
     //Constructor.. simply to help me do some unit tests 
-    public WIRDownloadHandler(boolean kk) {
-    }
+    public WIRDownloadHandler(boolean kk) {}
     
-
-    //a very crude way of dealing with this 
     
-    public Vector<MWorkItem> toMWorkItems(String appoint) {
-        Document document = JDOMUtil.stringToDocument(appoint);
-        
-        //for births
-        if (document.getRootElement().getChildren("new_study1_new_study1_form3_v1") != null)
-        {
-            children = document.getRootElement().getChildren("new_study1_new_study1_form3_v1");
-        }
-        
-        //for deaths
-        else if (document.getRootElement().getChildren("new_study1_new_study1_form1_v1") != null)
-        {
-            children = document.getRootElement().getChildren("new_study1_new_study1_form1_v1");
-        }
-        
+    /**
+     * 
+     * @param appoint
+     * @return 
+     * 
+     * 
+     * formData.setValue("child_name", birthReport.getEventName());
+            formData.setValue("date_of_birth", birthReport.getDateOfEvent());
+     * 
+     */
+    
+    public Vector<MWorkItem> toMWorkItems(List<String> formXml) {
         
         Vector<MWorkItem> workItemList = new Vector<MWorkItem>();
-        for (Element appintmentElemet : children) {
-            MWorkItem wir = new MWorkItem();
-            List<WorkItemQuestion> workItemQuestions = YawlOXDCustomService.createQuestionListFromXML(appintmentElemet);
-            Vector<MQuestionMap> quenMaps = toQuestionMaps(workItemQuestions);
-            wir.setPrefilledQns(quenMaps);
-            workItemList.add(wir);
+        
+                    
+        //for births
+      
+            List<BirthReport>  birthReportList = birthEventService.getAllBirthEvents();
+            
+            System.out.println("@toMworkItems request size of birth events"+birthReportList.size());
+            
+            for (BirthReport birthReport : birthReportList) {
+                String birthxml=" <new_study1_new_study1_form3_v1>"
+                        + "<child_name>"+birthReport.getEventName()+"</child_name>"
+                        + "<date_of_birth>"+birthReport.getDateOfEvent().toString()+"</date_of_birth> "
+                        + "<eventid>" +birthReport.getEventId() +  "</eventid>" + 
+                        "</new_study1_new_study1_form3_v1>";
+            Document birthdocument = JDOMUtil.stringToDocument(birthxml);
+                System.out.println("@toMworkItems document is like so=>"+birthdocument.toString());
+                System.out.println("@prefilled birth xml document " + birthxml);
 
-            setStudyAndCaseAttributes(wir);
-        }
-        return workItemList;
+
+                    MWorkItem wir = new MWorkItem();
+
+
+                        List<WorkItemQuestion> workItemQuestions = YawlOXDCustomService.createQuestionListFromXML(birthdocument.getRootElement());
+                        Vector<MQuestionMap> quenMaps = toQuestionMaps(workItemQuestions);
+                        wir.setStudyId(moveitDef.getStudyId());
+                        wir.setFormId(birthDef.getFormId());
+                        wir.setTaskName(birthDef.getName()+" -- "+birthReport.getEventName());
+                        wir.setPrefilledQns(quenMaps);                       
+                        workItemList.add(wir);
+
+            }
+   
+            System.out.println("@toworkitems gotten birth");
+            
+     
+        /**
+         * 
+         * formData.setValue("name", deathReport.getEventName());
+            formData.setValue("dateofdeath", deathReport.getDateOfEvent());
+         * 
+         */
+        
+        //for deaths
+           
+            List<DeathReport>  deathReportList = deathEventService.getAllDeathEvents();
+            
+            for (DeathReport deathReport : deathReportList) {
+                 String deathXML="<new_study1_new_study1_form1_v1 >"
+                         + "<name>"+deathReport.getEventName()+"</name>"
+                         + "<dateofdeath>"+deathReport.getDateOfEvent().toString()+"</dateofdeath>"
+                         + "<eventid>"+deathReport.getEventId()+"</eventid>"
+                         + "</new_study1_new_study1_form1_v1>";
+            
+                  Document deathdocument = JDOMUtil.stringToDocument(deathXML);
+                  System.out.println("@toMworkItems document is like so=>"+deathdocument.toString());
+                  System.out.println("@prefilled death xml document " + deathXML);
+                  
+             MWorkItem wir = new MWorkItem();
+                
+
+                    List<WorkItemQuestion> workItemQuestions = YawlOXDCustomService.createQuestionListFromXML(deathdocument.getRootElement());
+                    Vector<MQuestionMap> quenMaps = toQuestionMaps(workItemQuestions);
+                    wir.setFormId(deathDef.getFormId());
+                    wir.setTaskName(deathDef.getName()+" -- "+deathReport.getEventName());
+                    wir.setPrefilledQns(quenMaps);
+                    wir.setStudyId(moveitDef.getStudyId());
+                    workItemList.add(wir);
+                            
+            }
+            
+     return workItemList;   
+        
     }
 
     private Vector<MQuestionMap> toQuestionMaps(List<WorkItemQuestion> workItemQuestions) {
@@ -165,20 +254,50 @@ public class WIRDownloadHandler implements RequestHandler {
      */
     private void setMoveit_STudyAndForm() {
         //Get the IIS studyName from the setting service
-        String studName = settingService.getSetting("moveit.it");
+        moveitStudy = settingService.getSetting("moveit.study");
+        birthForm = settingService.getSetting("birth.form");
+        deathForm = settingService.getSetting("death.form");
+        
+        
+        //Get the IIS studyName from the setting service
+        System.out.println("Moveit Study:->"+moveitStudy);
         List<StudyDef> studies = studyService.getStudies();
         for (StudyDef studyDef : studies) {
-            if (studyDef.getName().equals(studName)) {
-                moveit_Study = studyDef;
+        	System.out.println("STUDY NAME:->"+studyDef.getName());
+            if (studyDef.getName().equals(moveitStudy)) {
+                moveitDef = studyDef;
+                break;
+            }
+        }
+        //Get the birth from from the setting Service
+        String birthFormName = settingService.getSetting("birth.form");
+        System.out.println("birth Form:->"+birthFormName);
+        if (moveitStudy == null) {
+            return;
+        }
+        List<org.openxdata.server.admin.model.FormDef> forms = moveitDef.getForms();
+        for (org.openxdata.server.admin.model.FormDef formDef : forms) {
+        	System.out.println("Birth FORM NAME:->"+formDef.getName());
+            if (formDef.getName().equals(birthFormName)) {
+                birthDef = formDef;
+                formList.add(birthDef);
                 break;
             }
         }
         
-        if (moveit_Study == null) {
-            return;
+        
+        String deathFormName = settingService.getSetting("death.form");
+        System.out.println("death Form:->"+deathFormName);
+        
+        for (org.openxdata.server.admin.model.FormDef formDef : forms) {
+        	System.out.println("Death FORM NAME:->"+formDef.getName());
+            if (formDef.getName().equals(deathFormName)) {
+                deathDef = formDef;
+                formList.add(deathDef);
+                        
+                break;
+            }
         }
-        formList = moveit_Study.getForms();
-             
     }
     
     /**
@@ -196,8 +315,9 @@ public class WIRDownloadHandler implements RequestHandler {
 
 		
                 String username = user.getName();
-                String password = user.getPassword();
-                user = authenticationService.authenticate(username, password);
+                //String password = user.getPassword();
+                System.out.println("@handler Username"+username);
+                //user = authenticationService.authenticate(username, password);
                 System.out.println(user.getName());
 		
                 //TODO Need to use proper locale
@@ -233,20 +353,22 @@ public class WIRDownloadHandler implements RequestHandler {
 
     @Override
     public void handleRequest(User user, InputStream is, OutputStream os) throws IOException {
+            allEvents=new ArrayList<FormDef>();
+            formList = new ArrayList<FormDef>();
+            setMoveit_STudyAndForm();
       
             //Get the list of all xform representation of data. Need a 
             //way of breaking it down to births and deaths
-            List<String> events = getEventXML(user);
+            List<String> formxml = getEventXML(user);
             //Parse the apponintments XML and convert them to mWorkitems
-            for(String xmlEvent : events){
-                
-                Vector<MWorkItem> workItems = toMWorkItems(xmlEvent);
+            
+                Vector<MWorkItem> workItems = toMWorkItems(formxml);
                 log.debug("Downloading workitems for User: " + user.getName());
                 HandlerStreamUtil streamHelper = new HandlerStreamUtil(is, os);
                 streamHelper.writeSucess();
                 streamHelper.writeSmallVector(new Vector(workItems));
                 streamHelper.flush();
-            }
+           
             
     }
     

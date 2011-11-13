@@ -14,12 +14,14 @@ import org.openxdata.server.admin.model.User;
  */
 
 public class UserReporters {
-    
+    //add CHW Name
     private int userReportId;
         
     private User user;
     
     private int reporterId;
+    
+    private String chwName;
     
 
     public int getReporterId() {
@@ -45,6 +47,16 @@ public class UserReporters {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public String getChwName() {
+        return chwName;
+    }
+
+    public void setChwName(String chwName) {
+        this.chwName = chwName;
+    }
+    
+    
 
    
     

@@ -109,4 +109,6 @@ public class HibernateBirthEventDAO extends GenericDAOImpl<BirthReport, Integer>
     }
 
     
+
+    
 }

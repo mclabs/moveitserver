@@ -53,6 +53,7 @@ public class BirthReportServlet extends HttpServlet{
 
     @Override
     public void init() throws ServletException {
+        
         super.init();
         birthService = (BirthEventService)Context.getBean("birthEventService");
         authService = (AuthenticationService)Context.getBean("authenticationService");
@@ -258,6 +259,7 @@ public class BirthReportServlet extends HttpServlet{
 
         //set the date captured in oxd
         birthReport.setDateTimeStamp(calendar.getTime());
+        birthReport.setStatus("Incomplete");
         System.out.println(calendar.getTime());
 
     }

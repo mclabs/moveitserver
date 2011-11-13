@@ -4,13 +4,15 @@
  */
 package org.openxdata.modules.moveit.server.service;
 
+import java.util.List;
 import org.openxdata.modules.moveit.server.model.DeathReport;
+import org.openxdata.server.dao.BaseDAO;
 
 /**
  *
  * @author jmaina
  */
-public interface DeathEventService 
+public interface DeathEventService extends BaseDAO<DeathReport>
 {
     
     /**
@@ -20,6 +22,8 @@ public interface DeathEventService
      * @return 
      */
     public DeathReport getDeathEvent(DeathReport deathReport);
+    
+    public DeathReport getDeathEvent(int deathReportId);
        
     
     /**
@@ -35,5 +39,10 @@ public interface DeathEventService
      * @param deathEvent 
      */
     public boolean deleteDeathEvent(DeathReport deathEvent);
+    
+    
+    public List<DeathReport> getAllDeathEvents();
+    
+    public DeathReport getDeathEventByEventId(String eventId);
      
 }

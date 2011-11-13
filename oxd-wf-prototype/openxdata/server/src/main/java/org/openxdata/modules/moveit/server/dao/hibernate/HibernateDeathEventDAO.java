@@ -76,16 +76,11 @@ public class HibernateDeathEventDAO extends GenericDAOImpl<DeathReport, Integer>
         return true;
     }
 
-    @Override
-    public List<DeathReport> getDeathEvents() {
-        return findAll();
-    }
-
-    
     /**
      * @param deathReport
      * @return 
      */
+    
     @Override
     public DeathReport getDeathEvent(DeathReport deathReport) {
         
@@ -114,6 +109,13 @@ public class HibernateDeathEventDAO extends GenericDAOImpl<DeathReport, Integer>
         return reporterEvents;
         
         
+    }
+
+    @Override
+    public List<DeathReport> getAllDeathEvents() {
+           List <DeathReport> deathReportList = findAll();
+        
+        return deathReportList;
     }
     
 }

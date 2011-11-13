@@ -17,6 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author jmaina
  * 
+ * Service implementation of retrieving a list of reporters that belong to a certain chief
+ * or whoever has oversight over a number of community health workers
+ * 
  * 
  */
 

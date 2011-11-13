@@ -24,5 +24,6 @@
     <property column="location" name="location" not-null="true" type="java.lang.String"/>
     <property column="event_place" name="place_of_event" not-null="true" type="java.lang.String"/>
     <property column="notification_number" name="notificationNumber" not-null="true" type="int"/>
+    <property column="status" name="status" not-null="true" type="java.lang.String"/>
   </class>
 </hibernate-mapping>

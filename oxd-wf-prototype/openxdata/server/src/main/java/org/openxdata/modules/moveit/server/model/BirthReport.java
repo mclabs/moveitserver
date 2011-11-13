@@ -68,6 +68,8 @@ public class BirthReport implements Serializable
     /** Notification no. ( Incase Place is hospital and there is D1 filled) => nid */
     private int notificationNumber;
     
+    public String status; 
+    
    
     
     public void setBirthReportId(int birthReportId) {
@@ -173,11 +175,14 @@ public class BirthReport implements Serializable
     public void setSex(String sex) {
         this.sex = sex;
     }
-    
-    
-    
-    
 
-    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+     
     
 }

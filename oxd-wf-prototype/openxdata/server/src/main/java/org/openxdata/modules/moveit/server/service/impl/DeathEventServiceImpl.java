@@ -5,9 +5,12 @@
 package org.openxdata.modules.moveit.server.service.impl;
 
 import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
 import org.openxdata.modules.moveit.server.dao.DeathEventDAO;
 import org.openxdata.modules.moveit.server.model.DeathReport;
 import org.openxdata.modules.moveit.server.service.DeathEventService;
+import org.openxdata.server.dao.hibernate.BaseDAOImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,47 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service("deathEventService")
-public class DeathEventServiceImpl  extends EventService implements DeathEventService
+public class DeathEventServiceImpl  extends BaseDAOImpl<DeathReport> implements DeathEventService
 {
     @Autowired
     private DeathEventDAO deathEventDAO;
-    
-
-    /**
-     * this is a generic method for testing whether the Event in question was successfully saved.
-     * 
-     * @param obj
-     * @return 
-     */
-    @Override
-    public boolean isEventSaved(Object obj) {
-        
-        boolean isSaved = false;
-        
-        if (obj instanceof DeathReport)
-        {
-            DeathReport deathReport = (DeathReport) obj;
-            
-            if (deathEventDAO.getDeathEvent(deathReport) != null)
-                isSaved = true;
-            else
-                isSaved = false;
-        }       
-        
-        return isSaved;
-        
-    }
-
-    @Override
-    public List<DeathReport> getAllEvents() {
-        return deathEventDAO.findAll();
-    }
-
-    @Override
-    public List<DeathReport> findEventsByReporter(int reporterId) {
-       
-        return deathEventDAO.getDeathEventsByReporter(reporterId);
-    }
 
     @Override
     public DeathReport getDeathEvent(DeathReport deathReport) {
@@ -84,6 +50,30 @@ public class DeathEventServiceImpl  extends EventService implements DeathEventSe
     public boolean deleteDeathEvent(DeathReport deathEvent) {
         
         return deathEventDAO.deleteDeathEvent(deathEvent);
+    }
+
+    @Override
+    public List<DeathReport> getAllDeathEvents() {
+        
+        return deathEventDAO.getAllDeathEvents();
+    }
+
+    @Override
+    public DeathReport getDeathEvent(int deathReportId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public DeathReport getDeathEventByEventId(String eventId) {
+        
+        DeathReport deathReport;
+        Criteria criteria = getSession().
+                    createCriteria(DeathReport.class).
+                    add(Restrictions.eq("eventId", eventId));
+        
+        deathReport = (DeathReport) criteria.list().get(0);
+        
+        return deathReport;
     }
 
     
