@@ -1074,6 +1074,9 @@
             <column name="notification_number" type="INT">
                 <constraints nullable="true"/>
             </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
           
          </createTable>
                
@@ -1125,6 +1128,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="notification_number" type="INT">
+                <constraints nullable="true"/>
+            </column>
+            <column name="status" type="VARCHAR(255)">
                 <constraints nullable="true"/>
             </column>
             
