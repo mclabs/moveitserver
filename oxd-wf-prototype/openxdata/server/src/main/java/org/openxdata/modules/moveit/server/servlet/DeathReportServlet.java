@@ -8,6 +8,8 @@ package org.openxdata.modules.moveit.server.servlet;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -44,6 +46,8 @@ public class DeathReportServlet extends HttpServlet{
     Calendar calendar;
     FormService formService;
     UserService userService;
+    SimpleDateFormat format;
+    String pattern = "yyyy-MM-dd";
     
     
     @Override
@@ -53,6 +57,8 @@ public class DeathReportServlet extends HttpServlet{
         authService = (AuthenticationService)Context.getBean("authenticationService");
         formService = (FormService)Context.getBean("formService");
         userService = (UserService) Context.getBean("userService");
+        format = new SimpleDateFormat(pattern);
+        
     }
 
 
@@ -142,7 +148,7 @@ public class DeathReportServlet extends HttpServlet{
     }
 
     //check params and set the event details
-    private void checkParams(HttpServletRequest req, DeathReport deathReport) throws ParamNotSetException {
+    private void checkParams(HttpServletRequest req, DeathReport deathReport) throws ParamNotSetException, ParseException {
         
         String tmpParam=null;
         
@@ -169,8 +175,9 @@ public class DeathReportServlet extends HttpServlet{
 
         if((tmpParam=req.getParameter(Constants.EVENT_DATE))!=null){
             //TODO: change to chack date formart of incoming string
-            long timestamp = Long.valueOf(tmpParam).longValue();
-            deathReport.setDateOfEvent(new Date(timestamp));
+            //long timestamp = Long.valueOf(tmpParam).longValue();
+            Date date = format.parse(tmpParam);
+            deathReport.setDateOfEvent(date);
             //reset tmpParam variable for next check
             tmpParam = null;
         }else{
@@ -188,9 +195,11 @@ public class DeathReportServlet extends HttpServlet{
 
         if((tmpParam=req.getParameter(Constants.EVENT_REPORT_DATE))!=null){
             
-            long timestamp = Long.valueOf(tmpParam).longValue();
+            //long timestamp = Long.valueOf(tmpParam).longValue();            
+            //deathReport.setDateOfReport(new Date(timestamp));
             
-            deathReport.setDateOfReport(new Date(timestamp));
+            Date date = format.parse(tmpParam);
+            deathReport.setDateOfReport(date);
             //reset tmpParam variable for next check
             tmpParam = null;
         }else{
@@ -207,8 +216,11 @@ public class DeathReportServlet extends HttpServlet{
         
         if ((tmpParam=req.getParameter(Constants.DOB)) != null){
             
-            long timestamp = Long.valueOf(tmpParam).longValue();
-            deathReport.setDateOfBirth(new Date(timestamp));
+            //long timestamp = Long.valueOf(tmpParam).longValue();
+            //deathReport.setDateOfBirth(new Date(timestamp));
+            
+            Date date = format.parse(tmpParam);
+            deathReport.setDateOfBirth(date);
             //reset tmpParam variable for next check
             tmpParam =  null;           
         }else{

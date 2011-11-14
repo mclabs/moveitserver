@@ -8,6 +8,8 @@ package org.openxdata.modules.moveit.server.servlet;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
@@ -46,6 +48,8 @@ public class BirthReportServlet extends HttpServlet{
     UserService userService;
     FormDownloadService formDownloadService;
     KxmlSerializerUtil kxmlSerializer;
+    SimpleDateFormat format;
+    String pattern = "yyyy-MM-dd";
 
 
 
@@ -59,6 +63,7 @@ public class BirthReportServlet extends HttpServlet{
         authService = (AuthenticationService)Context.getBean("authenticationService");
         formService = (FormService)Context.getBean("formService");
         userService = (UserService) Context.getBean("userService");
+        format = new SimpleDateFormat(pattern);
         
     }
 
@@ -157,7 +162,7 @@ public class BirthReportServlet extends HttpServlet{
     }
 
     //check params and set the event details
-    private void checkParams(HttpServletRequest req, BirthReport birthReport) throws ParamNotSetException {
+    private void checkParams(HttpServletRequest req, BirthReport birthReport) throws ParamNotSetException, ParseException {
         
         String tmpParam=null;
         
@@ -186,9 +191,13 @@ public class BirthReportServlet extends HttpServlet{
 
         if((tmpParam=req.getParameter(Constants.EVENT_DATE))!=null){
             //TODO: change to chack date formart of incoming string
-            long timestamp = Long.valueOf(tmpParam).longValue();
-            birthReport.setDateOfEvent(new Date(timestamp));
+            //long timestamp = Long.valueOf(tmpParam).longValue();
+            //birthReport.setDateOfEvent(new Date(timestamp));
             //reset tmpParam variable for next check
+            
+            Date date = format.parse(tmpParam);
+            birthReport.setDateOfEvent(date);
+            
             System.out.println(tmpParam);
             tmpParam = null;
         }else{
@@ -206,9 +215,13 @@ public class BirthReportServlet extends HttpServlet{
         }
 
         if((tmpParam=req.getParameter(Constants.EVENT_REPORT_DATE))!=null){
-            long timestamp = Long.valueOf(tmpParam).longValue();
-            birthReport.setDateOfReport(new Date(timestamp));
+            //long timestamp = Long.valueOf(tmpParam).longValue();
+            //birthReport.setDateOfReport(new Date(timestamp));
             //reset tmpParam variable for next check
+            
+            Date date = format.parse(tmpParam);
+            birthReport.setDateOfReport(date);
+            
             System.out.println(tmpParam);
             tmpParam = null;
         }else{
