@@ -34,9 +34,9 @@ public class ProcessorCreator
                 } catch (ClassNotFoundException classNotFoundException) {
                 }
                 try {
-                        return (Class<RequestHandler>) Class.forName("org.openxdata.modules.workflows.server.handlers." + handlerClassName);
+                        return (Class<RequestHandler>) Class.forName("org.openxdata.modules.moveit.handlers." + handlerClassName);
                 } catch (ClassNotFoundException classNotFoundException) {
                 }
-                return (Class<RequestHandler>) Class.forName("org.openxdata.modules.workflows.server.handlers." + handlerClassName + "Handler");
+                return (Class<RequestHandler>) Class.forName("org.openxdata.modules.moveit.handlers." + handlerClassName + "Handler");
         }
 }
