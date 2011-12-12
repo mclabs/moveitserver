@@ -165,7 +165,7 @@ public class WIRDownloadHandler implements RequestHandler {
                         + "<date_of_birth>"+birthReport.getDateOfEvent().toString()+"</date_of_birth> "
                         + "<eventid>" +birthReport.getEventId() +  "</eventid>" + 
                         "</new_study1_new_study1_form3_v1>";
-            Document birthdocument = JDOMUtil.stringToDocument(birthxml);
+                Document birthdocument = JDOMUtil.stringToDocument(birthxml);
                 System.out.println("@toMworkItems document is like so=>"+birthdocument.toString());
                 System.out.println("@prefilled birth xml document " + birthxml);
 
@@ -198,17 +198,17 @@ public class WIRDownloadHandler implements RequestHandler {
             List<DeathReport>  deathReportList = deathEventService.getAllDeathEvents();
             
             for (DeathReport deathReport : deathReportList) {
-                 String deathXML="<new_study1_new_study1_form1_v1 >"
+                 String deathXML="<moveit_moveit_form2_v1>"
                          + "<name>"+deathReport.getEventName()+"</name>"
                          + "<dateofdeath>"+deathReport.getDateOfEvent().toString()+"</dateofdeath>"
                          + "<eventid>"+deathReport.getEventId()+"</eventid>"
-                         + "</new_study1_new_study1_form1_v1>";
+                         + "</moveit_moveit_form2_v1>";
             
-                  Document deathdocument = JDOMUtil.stringToDocument(deathXML);
-                  System.out.println("@toMworkItems document is like so=>"+deathdocument.toString());
-                  System.out.println("@prefilled death xml document " + deathXML);
+                    Document deathdocument = JDOMUtil.stringToDocument(deathXML);
+                    System.out.println("@toMworkItems document is like so=>"+deathdocument.toString());
+                    System.out.println("@prefilled death xml document " + deathXML);
                   
-             MWorkItem wir = new MWorkItem();
+                    MWorkItem wir = new MWorkItem();
                 
 
                     List<WorkItemQuestion> workItemQuestions = YawlOXDCustomService.createQuestionListFromXML(deathdocument.getRootElement());
