@@ -1050,7 +1050,7 @@
             <column name="date_of_dateOXDtimestamp" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
-            <column name="reporter_id" type="INT">
+            <column name="reporter_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="event_identifier" type="VARCHAR(255)">
@@ -1071,7 +1071,7 @@
             <column name="event_place" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="notification_number" type="INT">
+            <column name="notification_number" type="VARCHAR(255)">
                 <constraints nullable="true"/>
             </column>
             <column name="status" type="VARCHAR(255)">
@@ -1103,7 +1103,7 @@
             <column name="date_of_dateOXDtimestamp" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
-            <column name="reporter_id" type="INT">
+            <column name="reporter_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="event_identifier" type="VARCHAR(255)">
@@ -1127,7 +1127,7 @@
             <column name="event_place" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="notification_number" type="INT">
+            <column name="notification_number" type="VARCHAR(255)">
                 <constraints nullable="true"/>
             </column>
             <column name="status" type="VARCHAR(255)">
