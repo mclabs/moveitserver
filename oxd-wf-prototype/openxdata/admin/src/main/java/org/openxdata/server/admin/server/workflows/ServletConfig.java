@@ -9,7 +9,6 @@ import org.openxdata.modules.moveit.server.servlet.BirthReportServlet;
 import org.openxdata.modules.moveit.server.servlet.DeathReportServlet;
 import org.openxdata.modules.moveit.server.servlet.EventStatusQueryServlet;
 import org.openxdata.modules.moveit.server.servlet.MobileEventRequestServlet;
-import org.openxdata.modules.workflows.server.servlet.WorkItemsServlet;
 import org.yawlfoundation.yawl.engine.interfce.interfaceB.InterfaceB_EnvironmentBasedServer;
 
 public class ServletConfig extends GuiceServletContextListener
