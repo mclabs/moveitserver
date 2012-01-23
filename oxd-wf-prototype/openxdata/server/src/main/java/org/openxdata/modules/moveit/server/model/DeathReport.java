@@ -46,7 +46,7 @@ public class DeathReport extends AbstractEditable {
     private Date dateTimeStamp;
     
     /**this represents the reporter (from RapidSMS). It is usually the phone number  */
-    private int reporterId;
+    private Long reporterId;
     
     /**this represents the unique id of the particular event */
     private String eventId;
@@ -68,7 +68,7 @@ public class DeathReport extends AbstractEditable {
     private String place_of_event;
     
     /** Notification no. ( Incase Place is hospital and there is D1 filled) => nid */
-    private int notificationNumber;
+    private String notificationNumber;
     
     public String status;    
    
@@ -128,11 +128,11 @@ public class DeathReport extends AbstractEditable {
     }
     
 
-    public void setReporterId(int reporterId) {
+    public void setReporterId(Long reporterId) {
         this.reporterId = reporterId;
     }
 
-    public int getReporterId() {
+    public Long getReporterId() {
         return reporterId;
     }
 
@@ -156,13 +156,15 @@ public class DeathReport extends AbstractEditable {
         this.location = location;
     }
 
-    public int getNotificationNumber() {
+    public String getNotificationNumber() {
         return notificationNumber;
     }
-     
-    public void setNotificationNumber(int notificationNumber) {
+
+    public void setNotificationNumber(String notificationNumber) {
         this.notificationNumber = notificationNumber;
     }
+
+    
 
     public String getPlace_of_event() {
         return place_of_event;

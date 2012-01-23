@@ -47,7 +47,7 @@ public class BirthReport implements Serializable
     private Date dateTimeStamp;
     
     /**this represents the reporter (from RapidSMS). It is usually the phone number  */
-    private int reporterId;
+    private Long reporterId;
     
     /**this represents the unique id of the particular event */
     private String eventId;
@@ -66,7 +66,7 @@ public class BirthReport implements Serializable
     private String place_of_event;
     
     /** Notification no. ( Incase Place is hospital and there is D1 filled) => nid */
-    private int notificationNumber;
+    private String notificationNumber;
     
     public String status; 
     
@@ -124,11 +124,11 @@ public class BirthReport implements Serializable
         return eventName;
     }
     
-    public void setReporterId(int reporterId) {
+    public void setReporterId(Long reporterId) {
         this.reporterId = reporterId;
     }
 
-    public int getReporterId() {
+    public Long getReporterId() {
         return reporterId;
     }
 
@@ -148,9 +148,7 @@ public class BirthReport implements Serializable
         return location;
     }
 
-    public int getNotificationNumber() {
-        return notificationNumber;
-    }
+    
 
     public String getPlace_of_event() {
         return place_of_event;
@@ -164,10 +162,6 @@ public class BirthReport implements Serializable
         this.location = location;
     }
 
-    public void setNotificationNumber(int notificationNumber) {
-        this.notificationNumber = notificationNumber;
-    }
-
     public void setPlace_of_event(String place_of_event) {
         this.place_of_event = place_of_event;
     }
@@ -179,10 +173,21 @@ public class BirthReport implements Serializable
     public String getStatus() {
         return status;
     }
+    
 
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getNotificationNumber() {
+        return notificationNumber;
+    }
+
+    public void setNotificationNumber(String notificationNumber) {
+        this.notificationNumber = notificationNumber;
+    }
+    
+    
      
     
 }

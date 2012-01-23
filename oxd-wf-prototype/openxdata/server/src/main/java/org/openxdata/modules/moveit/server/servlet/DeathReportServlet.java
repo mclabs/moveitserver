@@ -127,6 +127,9 @@ public class DeathReportServlet extends HttpServlet{
         }else{
             out.print("SUCCESS");
             
+           
+            /**
+             * 
             
             DataHandlerUtil dataHandler = new DataHandlerUtil(deathReport.getReporterId());
             org.openxdata.model.FormData formData = dataHandler.initFormData(deathReport);
@@ -143,6 +146,7 @@ public class DeathReportServlet extends HttpServlet{
             frmData.setDescription(formData.getDataDescription());
             formService.saveFormData(frmData);
                                 
+             *  */
         }
 
     }
@@ -186,7 +190,8 @@ public class DeathReportServlet extends HttpServlet{
 
 
         if((tmpParam=req.getParameter(Constants.EVENT_REPORTER))!=null){
-            deathReport.setReporterId(Integer.valueOf(tmpParam));
+            String number = tmpParam.substring(1);
+            deathReport.setReporterId(Long.valueOf(number));
             //reset tmpParam variable for next check
             tmpParam = null;
         }else{
@@ -207,8 +212,10 @@ public class DeathReportServlet extends HttpServlet{
         }
 
         if((tmpParam=req.getParameter(Constants.EVENT_CONTACT))!=null){
+            
             deathReport.setContactPhone(tmpParam);
             //reset tmpParam variable for next check
+            System.out.println(tmpParam);
             tmpParam = null;
         }else{
             throw new ParamNotSetException(Constants.EVENT_CONTACT);
@@ -253,7 +260,7 @@ public class DeathReportServlet extends HttpServlet{
         }
         
         if ((tmpParam=req.getParameter(Constants.NOTIFICATION_NO)) != null){
-            deathReport.setNotificationNumber(Integer.valueOf(tmpParam));
+            deathReport.setNotificationNumber(tmpParam);
             //reset tmpParam variable for next check
             tmpParam =  null;           
         }else{

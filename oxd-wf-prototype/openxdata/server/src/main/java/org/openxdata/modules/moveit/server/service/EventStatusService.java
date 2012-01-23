@@ -22,7 +22,7 @@ public interface EventStatusService
      * 
      * @return 
      */
-    public String getEventStatus(int eventId);
+    public String getEventStatus(String eventId);
     
     /**
      * this is for the user interface

@@ -43,6 +43,7 @@ public class EventStatusQueryServlet extends HttpServlet{
     @Override
     public void init() throws ServletException {
         deathService = (DeathEventService)Context.getBean("deathEventService");
+        birthEventService = (BirthEventService) Context.getBean("birthEventService");
         authService = (AuthenticationService)Context.getBean("authenticationService");
         eventStatusService = (EventStatusService) Context.getBean("eventStatusService");
     }
@@ -62,23 +63,27 @@ public class EventStatusQueryServlet extends HttpServlet{
         
         String message;
         
-        String event_id = req.getParameter("event");
-        int id = Integer.parseInt(event_id);
+        String event_id = req.getParameter("eventid");       
         
-        String eventStatus = eventStatusService.getEventStatus(id);
+        String eventStatus = eventStatusService.getEventStatus(event_id);
         
-        if ("Complete".equalsIgnoreCase(eventStatus)){
+        System.out.println(eventStatus + " ...At the servlet... showing");
+        
+        if (eventStatus.equalsIgnoreCase("Complete")){
             message = "C";
+            System.out.println("complete");
         }
         
-        if ("Incomplete".equalsIgnoreCase(eventStatus))
+        else if (eventStatus.equalsIgnoreCase("Incomplete"))
         {
-            message = "NS";
+            message = "NC";
+            System.out.println("incomplete");
         }
         
         else
         {
             message = "IN";
+            System.out.println("invalid");
         }
         
         resp.setContentType("text/plain");

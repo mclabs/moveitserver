@@ -5,8 +5,6 @@
 package org.openxdata.modules.moveit.server.service.impl;
 
 import java.util.List;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.openxdata.modules.moveit.server.dao.BirthEventDAO;
 import org.openxdata.modules.moveit.server.model.BirthReport;
 import org.openxdata.modules.moveit.server.service.BirthEventService;
@@ -70,11 +68,8 @@ public class BirthEventServiceImpl extends BaseDAOImpl<Editable> implements Birt
     public BirthReport getBirthEventByEventId(String eventId) {
         
         BirthReport birthReport;
-        Criteria criteria = getSession().
-                    createCriteria(BirthReport.class).
-                    add(Restrictions.eq("eventId", eventId));
         
-        birthReport = (BirthReport) criteria.list().get(0);
+        birthReport = birthEventDAO.getBirthEventByEventId(eventId);
         
         return birthReport;
     }

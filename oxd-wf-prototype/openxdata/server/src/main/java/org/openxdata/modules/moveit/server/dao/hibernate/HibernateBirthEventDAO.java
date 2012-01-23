@@ -108,6 +108,28 @@ public class HibernateBirthEventDAO extends GenericDAOImpl<BirthReport, Integer>
         return (BirthReport) birthCriteria.list().get(0);
     }
 
+    @Override
+    public BirthReport getBirthEventByEventId(String eventId) {
+        
+        BirthReport birthReport;
+        Session session = getSessionFactory().getCurrentSession();
+        Criteria criteria = session.
+                    createCriteria(BirthReport.class).
+                    add(Restrictions.eq("eventId", eventId));
+        
+        if (criteria.list().size()== 0){
+            return null;
+        }
+        
+        else
+        {
+            birthReport = (BirthReport) criteria.list().get(0);
+        
+            return birthReport;
+        
+        }
+    }
+
     
 
     

@@ -5,8 +5,6 @@
 package org.openxdata.modules.moveit.server.service.impl;
 
 import java.util.List;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.openxdata.modules.moveit.server.dao.DeathEventDAO;
 import org.openxdata.modules.moveit.server.model.DeathReport;
 import org.openxdata.modules.moveit.server.service.DeathEventService;
@@ -65,13 +63,8 @@ public class DeathEventServiceImpl  extends BaseDAOImpl<DeathReport> implements 
 
     @Override
     public DeathReport getDeathEventByEventId(String eventId) {
-        
         DeathReport deathReport;
-        Criteria criteria = getSession().
-                    createCriteria(DeathReport.class).
-                    add(Restrictions.eq("eventId", eventId));
-        
-        deathReport = (DeathReport) criteria.list().get(0);
+        deathReport = deathEventDAO.getDeathEventByEventId(eventId);
         
         return deathReport;
     }

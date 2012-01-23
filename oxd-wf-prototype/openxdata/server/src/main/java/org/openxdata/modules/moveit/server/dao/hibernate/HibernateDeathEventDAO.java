@@ -117,5 +117,25 @@ public class HibernateDeathEventDAO extends GenericDAOImpl<DeathReport, Integer>
         
         return deathReportList;
     }
+
+    @Override
+    public DeathReport getDeathEventByEventId(String eventId) {
+        DeathReport deathReport;
+        
+        Session session = getSessionFactory().getCurrentSession();
+        Criteria criteria = session.
+                    createCriteria(DeathReport.class).
+                    add(Restrictions.eq("eventId", eventId));
+        
+        if (criteria.list().size()== 0){
+      
+        return null;
+        }
+        else {
+            deathReport = (DeathReport) criteria.list().get(0);
+        
+        return deathReport;
+        }
+    }
     
 }

@@ -140,8 +140,7 @@ public class BirthReportServlet extends HttpServlet{
              * 
              * TODO 
              * It would provide better abstraction if this code goes to one class 
-             * 
-             */
+            
             
             DataHandlerUtil dataHandler = new DataHandlerUtil(birthReport.getReporterId());
             org.openxdata.model.FormData formData = dataHandler.initFormData(birthReport);
@@ -157,6 +156,8 @@ public class BirthReportServlet extends HttpServlet{
             frmData.setData(xml);
             frmData.setDescription(formData.getDataDescription());
             formService.saveFormData(frmData);
+             *  * 
+             */
         }
 
     }
@@ -206,9 +207,11 @@ public class BirthReportServlet extends HttpServlet{
 
 
         if((tmpParam=req.getParameter(Constants.EVENT_REPORTER))!=null){
-            birthReport.setReporterId(Integer.valueOf(tmpParam));
+            
+            String number = tmpParam.substring(1);
+            birthReport.setReporterId(Long.valueOf(number));
             //reset tmpParam variable for next check
-            System.out.println(tmpParam);
+            System.out.println(tmpParam + " ... " + number);
             tmpParam = null;
         }else{
             throw new ParamNotSetException(Constants.EVENT_REPORTER);
@@ -262,7 +265,7 @@ public class BirthReportServlet extends HttpServlet{
         }
         
         if ((tmpParam=req.getParameter(Constants.NOTIFICATION_NO)) != null){
-            birthReport.setNotificationNumber(Integer.valueOf(tmpParam));
+            birthReport.setNotificationNumber(tmpParam);
             //reset tmpParam variable for next check
             tmpParam =  null;           
         }else{

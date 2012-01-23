@@ -49,5 +49,7 @@ public interface DeathEventDAO extends GenericDAO<DeathReport, Integer>
   
     public List<DeathReport> getDeathEventsByReporter(int reporterId);
     
+     public DeathReport getDeathEventByEventId(String eventId);
+    
     
 }

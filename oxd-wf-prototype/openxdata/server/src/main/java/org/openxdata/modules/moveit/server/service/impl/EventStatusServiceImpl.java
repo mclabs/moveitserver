@@ -53,14 +53,14 @@ public class EventStatusServiceImpl implements EventStatusService {
     FormDef deathDef;
 
     @Override
-    public String getEventStatus(int eventId) {
+    public String getEventStatus(String eventId) {
         
         /**
          * the purpose of this code is to get the status of an eventid
          */
         
-        BirthReport birthReport = birthEventService.getBirthEventById(eventId);
-        DeathReport deathReport = deathEventService.getDeathEvent(eventId);
+        BirthReport birthReport = birthEventService.getBirthEventByEventId(eventId);
+        DeathReport deathReport = deathEventService.getDeathEventByEventId(eventId);
         
         if (birthReport !=null)
         {
@@ -71,6 +71,7 @@ public class EventStatusServiceImpl implements EventStatusService {
             status = deathReport.getStatus();
         }
         
+        System.out.println(status + "from the eventstatus servlet implementation");
         return status; //place holder for the status reponse.
     }
 
