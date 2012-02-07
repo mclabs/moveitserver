@@ -1138,5 +1138,43 @@
                
     </changeSet>
     
+    <changeSet id="3-create-chwmanager-event-table" author="jmaina">
+        
+        <preConditions>
+            <not>
+                <tableExists tableName="chwmodel"/>
+            </not>
+        </preConditions>
+        
+        <createTable tableName="chwmodel">
+            <column name="chw_id" autoIncrement="true"   type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            
+            <column name="fullname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mobilenumber" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="chwmanagername" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column> 
+            <column name="chwmanagernumber" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>               
+            <column name="location" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>           
+            <column name="chwrole" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_registration" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>          
+         </createTable>
+               
+    </changeSet>
+    
 
 </databaseChangeLog>

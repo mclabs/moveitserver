@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : CHWModel.hbm.xml
+    Author     : jmaina
+    Description:
+        Purpose of the document follows.
+        
+-->
+
+<hibernate-mapping package="org.openxdata.modules.moveit.server.model" >
+    
+  <class name="CHWModel" table="chwmodel">
+    <id column="chw_id" name="chwId" type="int" unsaved-value="0">
+      <generator class="native"/>
+    </id>
+    <property column="fullname" name="fullName" not-null="true" type="java.lang.String"/>
+    <property column="mobilenumber" name="mobileNumber" not-null="true" type="java.lang.String"/>
+    <property column="chwmanagername" name="chwManagerName" not-null="true" type="java.lang.String"/>   
+    <property column="chwmanagernumber" name="chwManagerNumber" not-null="true" type="java.lang.String"/>
+    <property column="location" name="chwLocation" not-null="true" type="java.lang.String"/>
+    <property column="chwrole" name="role" not-null="true" type="java.lang.String"/>
+    <property column="date_registration" name="date" not-null="true" type="timestamp"/>
+  </class>
+  
+</hibernate-mapping>

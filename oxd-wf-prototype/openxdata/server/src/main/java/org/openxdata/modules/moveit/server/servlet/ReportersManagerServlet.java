@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.openxdata.modules.moveit.server.exceptions.ParamNotSetException;
 import org.openxdata.modules.moveit.server.model.UserReporters;
 import org.openxdata.modules.moveit.server.service.UserEventReporterService;
-import org.openxdata.modules.moveit.server.util.Constants;
 import org.openxdata.server.Context;
 
 
@@ -80,48 +79,6 @@ public class ReportersManagerServlet extends HttpServlet {
     private void checkParameters(HttpServletRequest req, UserReporters userReportersObj) 
             throws ParamNotSetException {
         
-        String tmpParam=null;
-        
-        calendar = Calendar.getInstance();
-        
-        
-        /**
-         * TODO
-         * 
-         * how to handle user
-         */
-        if((tmpParam=req.getParameter(Constants.MANAGER))!=null){
-
-            userReportersObj.setReporterId(Integer.valueOf(tmpParam));
-            System.out.println(tmpParam);
-
-            //reset tmpParam variable for next check
-            tmpParam = null;
-        }else{
-            throw new ParamNotSetException(Constants.MANAGER);
-        }
-        
-        if((tmpParam=req.getParameter(Constants.REPPORTER))!=null){
-
-            userReportersObj.setReporterId(Integer.valueOf(tmpParam));
-            System.out.println(tmpParam);
-
-            //reset tmpParam variable for next check
-            tmpParam = null;
-        }else{
-            throw new ParamNotSetException(Constants.REPPORTER);
-        }
-        
-        if((tmpParam=req.getParameter(Constants.CHWNAME))!=null){
-
-            userReportersObj.setReporterId(Integer.valueOf(tmpParam));
-            System.out.println(tmpParam);
-
-            //reset tmpParam variable for next check
-            tmpParam = null;
-        }else{
-            throw new ParamNotSetException(Constants.CHWNAME);
-        }
     }
     
 }
