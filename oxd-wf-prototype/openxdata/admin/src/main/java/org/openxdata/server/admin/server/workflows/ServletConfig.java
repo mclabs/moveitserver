@@ -6,6 +6,7 @@ import com.google.inject.Scopes;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import org.openxdata.modules.moveit.server.servlet.BirthReportServlet;
+import org.openxdata.modules.moveit.server.servlet.CHWManagerServlet;
 import org.openxdata.modules.moveit.server.servlet.DeathReportServlet;
 import org.openxdata.modules.moveit.server.servlet.EventStatusQueryServlet;
 import org.openxdata.modules.moveit.server.servlet.MobileEventRequestServlet;
@@ -34,6 +35,7 @@ public class ServletConfig extends GuiceServletContextListener
             serve("/birthreport").with(BirthReportServlet.class);
             serve("/wirdownload").with(MobileEventRequestServlet.class);
             serve("/statuscheck").with(EventStatusQueryServlet.class);
+            serve("/chwcreate").with(CHWManagerServlet.class);
         }
     }
 }
