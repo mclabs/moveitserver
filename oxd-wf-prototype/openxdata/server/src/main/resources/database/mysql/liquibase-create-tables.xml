@@ -1161,10 +1161,10 @@
                 <constraints nullable="false"/>
             </column> 
             <column name="chwmanagernumber" type="VARCHAR(255)">
-                <constraints nullable="true"/>
+                <constraints nullable="false"/>
             </column>               
             <column name="location" type="VARCHAR(255)">
-                <constraints nullable="true"/>
+                <constraints nullable="false"/>
             </column>           
             <column name="chwrole" type="VARCHAR(255)">
                 <constraints nullable="false"/>

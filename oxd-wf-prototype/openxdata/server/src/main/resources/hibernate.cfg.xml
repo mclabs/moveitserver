@@ -40,6 +40,7 @@
     <mapping resource="org/openxdata/modules/moveit/server/hibernate/mappings/BirthReport.hbm.xml"/>
     <mapping resource="org/openxdata/modules/moveit/server/hibernate/mappings/DeathReport.hbm.xml"/>
     <mapping resource="org/openxdata/modules/moveit/server/hibernate/mappings/UserReporters.hbm.xml"/>
+    <mapping resource="org/openxdata/modules/moveit/server/hibernate/mappings/CHWModel.hbm.xml"/>
  
     
   </session-factory>
