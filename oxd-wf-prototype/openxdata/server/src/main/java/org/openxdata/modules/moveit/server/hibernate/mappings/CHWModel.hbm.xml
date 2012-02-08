@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <!--
     Document   : CHWModel.hbm.xml
     Author     : jmaina
     Description:
         Purpose of the document follows.
+        
+        
+        private int chwId;
+    private String fullName; //-> full name of the chw
+    private String mobileNumber; //-> mobile number of chw
+    private String chwManagerName;  //-> name of the manager of chw
+    private String chwManagerNumber; //->number of the manager of chw
+    private String chwLocation; //-> location of operations for chw
+    private String role; 
+    private Date date; // -> date registered into the system
         
 -->
 
