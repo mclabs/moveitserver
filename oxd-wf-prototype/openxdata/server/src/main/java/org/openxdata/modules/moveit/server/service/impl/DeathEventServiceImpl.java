@@ -69,6 +69,11 @@ public class DeathEventServiceImpl  extends BaseDAOImpl<DeathReport> implements 
         return deathReport;
     }
 
+    @Override
+    public List<DeathReport> getDeathEventByReporterId(Long reporterId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     
     
 }

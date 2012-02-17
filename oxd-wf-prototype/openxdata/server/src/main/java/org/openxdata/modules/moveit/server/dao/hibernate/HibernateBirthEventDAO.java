@@ -130,6 +130,22 @@ public class HibernateBirthEventDAO extends GenericDAOImpl<BirthReport, Integer>
         }
     }
 
+    @Override
+    public List<BirthReport> getBirthEventByReporterId(Long reporterId) {
+        
+         BirthReport birthReport;
+         
+        Session session = getSessionFactory().getCurrentSession();
+        Criteria criteria = session.
+                    createCriteria(BirthReport.class).
+                    add(Restrictions.eq("reporterId", reporterId));
+        
+        List<BirthReport> birthReportList = criteria.list();
+        
+        return birthReportList;
+                
+    }
+
     
 
     

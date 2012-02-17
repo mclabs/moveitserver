@@ -52,5 +52,7 @@ public interface BirthEventDAO extends GenericDAO<BirthReport, Integer>{
      
      public BirthReport getBirthEventByEventId(String eventId);
      
+     public List<BirthReport> getBirthEventByReporterId(Long reporterId);
+     
      
 }

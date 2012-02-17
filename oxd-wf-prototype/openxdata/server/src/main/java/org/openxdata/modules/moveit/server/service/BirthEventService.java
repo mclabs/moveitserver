@@ -64,4 +64,6 @@ public interface BirthEventService
     
     
      public BirthReport getBirthEventByEventId(String eventId);
+     
+     public List<BirthReport> getBirthEventByReporterId(Long reporterId);
 }

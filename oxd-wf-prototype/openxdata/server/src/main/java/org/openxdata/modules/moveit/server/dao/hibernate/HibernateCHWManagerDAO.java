@@ -89,5 +89,18 @@ public class HibernateCHWManagerDAO
         
         return (CHWModel) chwCriteria.list().get(0);
     }
+
+    @Override
+    public List<CHWModel> retrieveCHWByManagerNumber(String managerNumber) {
+        
+        Session session = getSessionFactory().getCurrentSession();
+        Criteria criteria = session.
+                    createCriteria(CHWModel.class).
+                    add(Restrictions.eq("chwManagerNumber", managerNumber));
+        
+        List<CHWModel> chwModelsList = criteria.list();
+        
+        return chwModelsList;
+    }
     
 }

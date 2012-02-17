@@ -144,6 +144,8 @@ public class CHWManagerServlet extends HttpServlet
             Logger.getLogger(CHWModel.class.getName()).log(Level.SEVERE, null, ex);
         }
          
+         chwManagerService.saveCHW(chw);
+         
          
          
      }

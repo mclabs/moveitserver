@@ -77,5 +77,15 @@ public class CHWManagerServiceImpl implements CHWManagerService
         
         return chw;
     }
+
+    @Override
+    public List<CHWModel> retrieveCHWByManagerNumber(String managerNumber) {
+       
+      
+        List<CHWModel> chwsUnderMAnager 
+                = chwManagerDao.retrieveCHWByManagerNumber(managerNumber);
+        
+        return chwsUnderMAnager;
+    }
     
 }

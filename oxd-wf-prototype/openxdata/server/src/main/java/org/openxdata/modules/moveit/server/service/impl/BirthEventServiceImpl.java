@@ -73,6 +73,15 @@ public class BirthEventServiceImpl extends BaseDAOImpl<Editable> implements Birt
         
         return birthReport;
     }
+
+    @Override
+    public List<BirthReport> getBirthEventByReporterId(Long reporterId) {
+        
+        List<BirthReport> birthReportList 
+                = birthEventDAO.getBirthEventByReporterId(reporterId);
+        
+        return birthReportList;
+    }
     
     
 

@@ -32,6 +32,8 @@ public interface CHWManagerService {
        
     public CHWModel retrieveCHW(String phoneNumber);
     
+    public List<CHWModel> retrieveCHWByManagerNumber(String managerNumber);
+    
     
     
 }

@@ -24,8 +24,10 @@ import org.openxdata.workflow.mobile.model.MWorkItem;
 import org.yawlfoundation.yawl.util.JDOMUtil;
 
 import org.openxdata.modules.moveit.server.model.BirthReport;
+import org.openxdata.modules.moveit.server.model.CHWModel;
 import org.openxdata.modules.moveit.server.model.DeathReport;
 import org.openxdata.modules.moveit.server.service.BirthEventService;
+import org.openxdata.modules.moveit.server.service.CHWManagerService;
 import org.openxdata.modules.moveit.server.service.DeathEventService;
 import org.openxdata.modules.moveit.server.service.UserEventReporterService;
 import org.openxdata.server.Context;
@@ -81,6 +83,7 @@ public class WIRDownloadHandler implements RequestHandler {
     private BirthEventService birthEventService;
     private DeathEventService deathEventService;
     FormService formservice;
+    CHWManagerService chwManagerService;
     
     String moveitStudy;
     String deathForm;
@@ -93,6 +96,10 @@ public class WIRDownloadHandler implements RequestHandler {
     int birthFID;
     int deathFID;
     List<FormDef> allEvents;
+    
+    List<BirthReport>  birthReportList;
+     List<DeathReport>  deathReportList;
+    
     
     /**
      * 
@@ -128,6 +135,8 @@ public class WIRDownloadHandler implements RequestHandler {
                 (DeathEventService) Context.getBean("deathEventService");
         formservice =
                 (FormService) Context.getBean("formService");
+        chwManagerService =
+                (CHWManagerService) Context.getBean("chwManagerService");
         
         
         
@@ -148,23 +157,106 @@ public class WIRDownloadHandler implements RequestHandler {
      * 
      */
     
-    public Vector<MWorkItem> toMWorkItems(List<String> formXml) {
+    public Vector<MWorkItem> toMWorkItems(List<String> formXml, User user) {
         
         Vector<MWorkItem> workItemList = new Vector<MWorkItem>();
         
                     
         //for births
+        /**
+         * <child_other_name/>
+        <child_fathers_name/>
+        <c._date_of_birth/>
+        <gender/>
+        <type_of_birth/>
+        <other_type_of_birth/>
+        <nature_of_birth/>
+        <place_of_birth/>
+        <mother_first_name/>
+        <father_first_name/>
+        <capacity_of_informant/>
+        <r.a._date/>
+        <registrar._district/>
+        <mother_middel_name/>
+        <mother_surname/>
+        <age/>
+        <marital_status/>
+        <mother_nationality/>
+        <occupation/>
+        <id_number/>
+        <level_of_education/>
+        <usual_residence/>
+        <usual_residence_district/>
+        <previous_births_born_alive/>
+        <previous_births_born_dead/>
+        <father_middle_name/>
+        <father_surname/>
+        <father_nationality/>
+        <id_number_slash_passport/>
+        <do_you_certify_the_information_is_correct/>
+        <informant_id_number_slash_passport/>
+        <date/>
+        <i._signature/>
+        <registration_assistant_for/>
+        <r.a_name_and_signature/>
+        <r._registration_no./>
+        <r._date/>
+         */
+        
+        /**
+         * 
+         * admin can download all the forms so long as he has the password
+         * 
+         * code to filter out CHW by location. 
+         * 
+         * so get the user, get the user's phone number, 
+         * get all the CHW's that fall under the given user.
+         * then load all the events by reporter id.
+         * 
+         * 
+         * 
+         */
+        String managerPhoneNumber = user.getPhoneNo();
+        
+        if (!user.getName().equalsIgnoreCase("admin"))
+        {
+        //String managerPhoneNumber = user.getPhoneNo();
+        
+        birthReportList = new ArrayList<BirthReport>();
+        List <BirthReport> birthList = new ArrayList<BirthReport>();
+        
+        List<CHWModel> chwModelList 
+                = chwManagerService.retrieveCHWByManagerNumber(managerPhoneNumber);
+        
+        
+        
+                for (CHWModel chw: chwModelList)
+                {
+                    Long reporterNumber = Long.valueOf(chw.getMobileNumber());
+                    birthList = birthEventService.getBirthEventByReporterId(reporterNumber);
+                    
+                    for (BirthReport birthReport : birthList)
+                    {
+                        birthReportList.add(birthReport);
+                    }
+                }
+        }
+        else{
+            
+            //the user is admin so he can dowload all the forms
+            birthReportList = birthEventService.getAllBirthEvents();
+        }
       
-            List<BirthReport>  birthReportList = birthEventService.getAllBirthEvents();
+           
             
             System.out.println("@toMworkItems request size of birth events"+birthReportList.size());
             
             for (BirthReport birthReport : birthReportList) {
-                String birthxml=" <new_study1_new_study1_form3_v1>"
-                        + "<child_name>"+birthReport.getEventName()+"</child_name>"
-                        + "<date_of_birth>"+birthReport.getDateOfEvent().toString()+"</date_of_birth> "
-                        + "<eventid>" +birthReport.getEventId() +  "</eventid>" + 
-                        "</new_study1_new_study1_form3_v1>";
+                String birthxml=" <moveit_birthform_v1>"
+                        + "<eventid>" +birthReport.getEventId() +  "</eventid>" 
+                        + "<child_first_name>"+birthReport.getEventName()+"</child_first_name>" +
+                         "<c._date_of_birth>"+birthReport.getDateOfEvent().toString()+"</c._date_of_birth> " +            
+                        "</moveit_birthform_v1>";
                 Document birthdocument = JDOMUtil.stringToDocument(birthxml);
                 System.out.println("@toMworkItems document is like so=>"+birthdocument.toString());
                 System.out.println("@prefilled birth xml document " + birthxml);
@@ -194,8 +286,35 @@ public class WIRDownloadHandler implements RequestHandler {
          */
         
         //for deaths
-           
-            List<DeathReport>  deathReportList = deathEventService.getAllDeathEvents();
+            
+        if (!user.getName().equalsIgnoreCase("admin"))
+        {
+        
+        deathReportList = new ArrayList<DeathReport>();
+        List <DeathReport> deathList = new ArrayList<DeathReport>();
+        
+        List<CHWModel> chwModelListD 
+                = chwManagerService.retrieveCHWByManagerNumber(managerPhoneNumber);
+        
+        
+        
+                for (CHWModel chw: chwModelListD)
+                {
+                    Long reporterNumber = Long.valueOf(chw.getMobileNumber());
+                    deathList = deathEventService.getDeathEventByReporterId(reporterNumber);
+                    
+                    for (DeathReport deathReport : deathList)
+                    {
+                        deathReportList.add(deathReport);
+                    }
+                }
+        }   
+        
+        else
+        {
+            //the user is admin so he can dowload all the forms
+            deathReportList = deathEventService.getAllDeathEvents();
+        }
             
             for (DeathReport deathReport : deathReportList) {
                  String deathXML="<moveit_moveit_form2_v1>"
@@ -362,7 +481,7 @@ public class WIRDownloadHandler implements RequestHandler {
             List<String> formxml = getEventXML(user);
             //Parse the apponintments XML and convert them to mWorkitems
             
-                Vector<MWorkItem> workItems = toMWorkItems(formxml);
+                Vector<MWorkItem> workItems = toMWorkItems(formxml, user);
                 log.debug("Downloading workitems for User: " + user.getName());
                 HandlerStreamUtil streamHelper = new HandlerStreamUtil(is, os);
                 streamHelper.writeSucess();

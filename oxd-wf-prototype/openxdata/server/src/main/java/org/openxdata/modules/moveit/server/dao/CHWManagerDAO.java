@@ -33,4 +33,6 @@ public interface CHWManagerDAO extends GenericDAO<CHWModel, Integer> {
        
     public CHWModel retrieveCHW(String phoneNumber);
     
+    public List<CHWModel> retrieveCHWByManagerNumber(String managerNumber);
+    
 }

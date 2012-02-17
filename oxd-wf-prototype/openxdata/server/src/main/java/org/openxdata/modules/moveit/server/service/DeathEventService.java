@@ -45,6 +45,8 @@ public interface DeathEventService extends BaseDAO<DeathReport>
     
     public DeathReport getDeathEventByEventId(String eventId);
     
+    public List <DeathReport> getDeathEventByReporterId(Long reporterId);
+    
     
      
 }
