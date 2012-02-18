@@ -60,11 +60,6 @@ public class BirthEventServiceImpl extends BaseDAOImpl<Editable> implements Birt
     }
 
     @Override
-    public List<Object> getIncompletedEvents() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public BirthReport getBirthEventByEventId(String eventId) {
         
         BirthReport birthReport;
@@ -81,6 +76,11 @@ public class BirthEventServiceImpl extends BaseDAOImpl<Editable> implements Birt
                 = birthEventDAO.getBirthEventByReporterId(reporterId);
         
         return birthReportList;
+    }
+
+    @Override
+    public List<BirthReport> getIncompletedEvents() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     

@@ -146,6 +146,22 @@ public class HibernateBirthEventDAO extends GenericDAOImpl<BirthReport, Integer>
                 
     }
 
+    @Override
+    public List<BirthReport> getIncompletedEvents() {
+        
+        
+        BirthReport birthReport;
+         
+        Session session = getSessionFactory().getCurrentSession();
+        Criteria criteria = session.
+                    createCriteria(BirthReport.class).
+                    add(Restrictions.eq("status", "Incomplete"));
+        
+        List<BirthReport> birthReportList = criteria.list();
+        
+        return birthReportList;
+    }
+
     
 
     

@@ -60,7 +60,7 @@ public interface BirthEventService
      * 
      * @return 
      */
-    public List<Object> getIncompletedEvents();
+    public List<BirthReport> getIncompletedEvents();
     
     
      public BirthReport getBirthEventByEventId(String eventId);

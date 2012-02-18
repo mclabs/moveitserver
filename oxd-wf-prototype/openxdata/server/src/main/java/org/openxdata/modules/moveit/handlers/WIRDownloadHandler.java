@@ -98,7 +98,7 @@ public class WIRDownloadHandler implements RequestHandler {
     List<FormDef> allEvents;
     
     List<BirthReport>  birthReportList;
-     List<DeathReport>  deathReportList;
+    List<DeathReport>  deathReportList;
     
     
     /**
@@ -215,7 +215,7 @@ public class WIRDownloadHandler implements RequestHandler {
          * 
          * 
          * 
-         */
+         
         String managerPhoneNumber = user.getPhoneNo();
         
         if (!user.getName().equalsIgnoreCase("admin"))
@@ -245,9 +245,9 @@ public class WIRDownloadHandler implements RequestHandler {
             
             //the user is admin so he can dowload all the forms
             birthReportList = birthEventService.getAllBirthEvents();
-        }
+        } */
       
-           
+           birthReportList = birthEventService.getAllBirthEvents();
             
             System.out.println("@toMworkItems request size of birth events"+birthReportList.size());
             
@@ -283,7 +283,7 @@ public class WIRDownloadHandler implements RequestHandler {
          * formData.setValue("name", deathReport.getEventName());
             formData.setValue("dateofdeath", deathReport.getDateOfEvent());
          * 
-         */
+         
         
         //for deaths
             
@@ -314,14 +314,14 @@ public class WIRDownloadHandler implements RequestHandler {
         {
             //the user is admin so he can dowload all the forms
             deathReportList = deathEventService.getAllDeathEvents();
-        }
-            
+        } */
+            deathReportList = deathEventService.getAllDeathEvents();
             for (DeathReport deathReport : deathReportList) {
-                 String deathXML="<moveit_moveit_form2_v1>"
+                 String deathXML="<moveit_deathform_d2>" 
+                         + "<eventid>" +deathReport.getEventId() +  "</eventid>"
                          + "<name>"+deathReport.getEventName()+"</name>"
                          + "<dateofdeath>"+deathReport.getDateOfEvent().toString()+"</dateofdeath>"
-                         + "<eventid>"+deathReport.getEventId()+"</eventid>"
-                         + "</moveit_moveit_form2_v1>";
+                         + "</moveit_deathform_d2>";
             
                     Document deathdocument = JDOMUtil.stringToDocument(deathXML);
                     System.out.println("@toMworkItems document is like so=>"+deathdocument.toString());
@@ -332,10 +332,13 @@ public class WIRDownloadHandler implements RequestHandler {
 
                     List<WorkItemQuestion> workItemQuestions = YawlOXDCustomService.createQuestionListFromXML(deathdocument.getRootElement());
                     Vector<MQuestionMap> quenMaps = toQuestionMaps(workItemQuestions);
+                    
+                    System.out.println("@ death form id is" + deathDef.getFormId());
+                    
+                    wir.setStudyId(moveitDef.getStudyId());
                     wir.setFormId(deathDef.getFormId());
                     wir.setTaskName(deathDef.getName()+" -- "+deathReport.getEventName());
-                    wir.setPrefilledQns(quenMaps);
-                    wir.setStudyId(moveitDef.getStudyId());
+                    wir.setPrefilledQns(quenMaps);                  
                     workItemList.add(wir);
                             
             }
@@ -413,6 +416,8 @@ public class WIRDownloadHandler implements RequestHandler {
             if (formDef.getName().equals(deathFormName)) {
                 deathDef = formDef;
                 formList.add(deathDef);
+                
+                System.out.println("@ death from id is..." + deathDef.getFormId());
                         
                 break;
             }
