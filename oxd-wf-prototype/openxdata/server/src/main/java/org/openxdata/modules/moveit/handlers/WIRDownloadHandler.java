@@ -161,48 +161,6 @@ public class WIRDownloadHandler implements RequestHandler {
         
         Vector<MWorkItem> workItemList = new Vector<MWorkItem>();
         
-                    
-        //for births
-        /**
-         * <child_other_name/>
-        <child_fathers_name/>
-        <c._date_of_birth/>
-        <gender/>
-        <type_of_birth/>
-        <other_type_of_birth/>
-        <nature_of_birth/>
-        <place_of_birth/>
-        <mother_first_name/>
-        <father_first_name/>
-        <capacity_of_informant/>
-        <r.a._date/>
-        <registrar._district/>
-        <mother_middel_name/>
-        <mother_surname/>
-        <age/>
-        <marital_status/>
-        <mother_nationality/>
-        <occupation/>
-        <id_number/>
-        <level_of_education/>
-        <usual_residence/>
-        <usual_residence_district/>
-        <previous_births_born_alive/>
-        <previous_births_born_dead/>
-        <father_middle_name/>
-        <father_surname/>
-        <father_nationality/>
-        <id_number_slash_passport/>
-        <do_you_certify_the_information_is_correct/>
-        <informant_id_number_slash_passport/>
-        <date/>
-        <i._signature/>
-        <registration_assistant_for/>
-        <r.a_name_and_signature/>
-        <r._registration_no./>
-        <r._date/>
-         */
-        
         /**
          * 
          * admin can download all the forms so long as he has the password
@@ -249,7 +207,7 @@ public class WIRDownloadHandler implements RequestHandler {
       
            birthReportList = birthEventService.getAllBirthEvents();
             
-            System.out.println("@toMworkItems request size of birth events"+birthReportList.size());
+            System.out.println("@toMworkItems request size of birth events "+birthReportList.size());
             
             for (BirthReport birthReport : birthReportList) {
                 String birthxml=" <moveit_birthform_v1>"
@@ -316,11 +274,14 @@ public class WIRDownloadHandler implements RequestHandler {
             deathReportList = deathEventService.getAllDeathEvents();
         } */
             deathReportList = deathEventService.getAllDeathEvents();
+            
+            System.out.println("@toMworkItems request size of birth events "+deathReportList.size());
+            
             for (DeathReport deathReport : deathReportList) {
                  String deathXML="<moveit_deathform_d2>" 
                          + "<eventid>" +deathReport.getEventId() +  "</eventid>"
-                         + "<name>"+deathReport.getEventName()+"</name>"
-                         + "<dateofdeath>"+deathReport.getDateOfEvent().toString()+"</dateofdeath>"
+                         + "<d._first_name>"+deathReport.getEventName()+"</d._first_name>"
+                         + "<d._date>"+deathReport.getDateOfEvent().toString()+"</d._date>"
                          + "</moveit_deathform_d2>";
             
                     Document deathdocument = JDOMUtil.stringToDocument(deathXML);
@@ -406,6 +367,7 @@ public class WIRDownloadHandler implements RequestHandler {
                 break;
             }
         }
+        
         
         
         String deathFormName = settingService.getSetting("death.form");
